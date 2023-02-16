@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../themes/app_theme.dart';
+import 'confirmation_screen.dart';
 
 
 class GreatJob extends StatelessWidget {
@@ -29,7 +30,7 @@ class GreatJob extends StatelessWidget {
 
           Gap(181.h),
            ElevatedButton(onPressed: (){
-
+             Navigator.pushNamed(context, ConfirmationScreen.id);
 
            }, child:Text('Next',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
 
