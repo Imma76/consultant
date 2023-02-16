@@ -1,4 +1,7 @@
 
+
+
+import 'package:consultant/src/views/authentication/great_job.dart';
 import 'package:flutter/material.dart';
 
 import '../views/authentication/login.dart';
@@ -11,5 +14,6 @@ Map<String,WidgetBuilder>routes={
   LoginScreen.id:(context)=>LoginScreen(),
   SignUpScreen.id:(context)=>SignUpScreen(),
   Homepage.id:(context)=>Homepage(),
+  GreatJob.id:(context)=>GreatJob()
 
 };

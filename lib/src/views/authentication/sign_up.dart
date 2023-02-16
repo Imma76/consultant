@@ -1,3 +1,4 @@
+import 'package:consultant/src/views/authentication/great_job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,6 +93,10 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
             ElevatedButton(onPressed: (){
               pageController
               .nextPage(duration: Duration(milliseconds: 100), curve: Curves.linear);
+              if(currentIndex ==3){
+
+               Navigator.pushNamed(context, GreatJob.id);
+              }
             }, child:Text('Next',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
 
           ],
@@ -288,111 +293,113 @@ class Field3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment:
-      CrossAxisAlignment.start,
-      children: [
-        Text('Gender',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
-        Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
-        Gap(24.h),
-        Text('Residential address',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
-        Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
-        Gap(24.h),
-        Text('Area of specialty',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
-        Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
-        Gap(24.h),
-        Text('Upload CV',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
-        Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child:Container(
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),),
-                ],
-              ),
-              decoration: BoxDecoration(
-              border: Border.all(
-                color:
-                  AppTheme.white2
-              ),
-                //borderRadius: BorderRadius.circular()
-              ),)
-          ),
-        ),
-        Gap(5.h),
-        Padding(
-          padding:  const EdgeInsets.all(3.0),
-          child: Container(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment:
+        CrossAxisAlignment.start,
+        children: [
+          Text('Gender',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+          Gap(8.h),
+          SizedBox(
             height:
-            33.78.h,
-            width:126.w,
-            child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color:
-                  AppTheme.primary
+            60.h,
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
+
+                    focusedBorder:
+                    OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
+                ),
               ),
-              borderRadius: BorderRadius.circular(9)
-            ),),
-        ),
-        Gap(24.h),
+            ),
+          ),
+          Gap(24.h),
+          Text('Residential address',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+          Gap(8.h),
+          SizedBox(
+            height:
+            60.h,
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
+
+                    focusedBorder:
+                    OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
+                ),
+              ),
+            ),
+          ),
+          Gap(24.h),
+          Text('Area of specialty',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+          Gap(8.h),
+          SizedBox(
+            height:
+            60.h,
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
+
+                    focusedBorder:
+                    OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
+                ),
+              ),
+            ),
+          ),
+          Gap(24.h),
+          Text('Upload CV',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+          Gap(8.h),
+          SizedBox(
+            height:
+            60.h,
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child:Container(
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                border: Border.all(
+                  color:
+                    AppTheme.white2
+                ),
+                  //borderRadius: BorderRadius.circular()
+                ),)
+            ),
+          ),
+          Gap(5.h),
+          Padding(
+            padding:  const EdgeInsets.all(3.0),
+            child: Container(
+              height:
+              33.78.h,
+              width:126.w,
+              child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color:
+                    AppTheme.primary
+                ),
+                borderRadius: BorderRadius.circular(9)
+              ),),
+          ),
+          Gap(24.h),
 
 
-      ],
+        ],
+      ),
     );
   }
 }
