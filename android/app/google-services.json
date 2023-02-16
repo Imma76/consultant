@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "939861289600",
+    "project_id": "consultant-1dae6",
+    "storage_bucket": "consultant-1dae6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939861289600:android:8d902ecc87a2577c045465",
+        "android_client_info": {
+          "package_name": "com.example.consult_patient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939861289600-14spm1b6ibo5p8et0ablvi8scj9nh21e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcc9RWDbFeXq2PqbrWeZQJvFWu5PF5jCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939861289600-14spm1b6ibo5p8et0ablvi8scj9nh21e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "939861289600-oqpr2as475636afqqtub85v16tbbm91j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.consultPatient"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939861289600:android:4fa39209d753df6e045465",
+        "android_client_info": {
+          "package_name": "com.example.consultant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939861289600-14spm1b6ibo5p8et0ablvi8scj9nh21e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcc9RWDbFeXq2PqbrWeZQJvFWu5PF5jCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939861289600-14spm1b6ibo5p8et0ablvi8scj9nh21e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "939861289600-oqpr2as475636afqqtub85v16tbbm91j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.consultPatient"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
