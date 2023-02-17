@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../views/authentication/login.dart';
 import '../views/authentication/sign_up.dart';
+import '../views/home/base.dart';
 import '../views/home/home_page.dart';
 import '../views/welcome.dart';
 
@@ -17,5 +18,6 @@ Map<String,WidgetBuilder>routes={
   Homepage.id:(context)=>Homepage(),
   GreatJob.id:(context)=>GreatJob(),
   ConfirmationScreen.id:(context)=>ConfirmationScreen(),
+  Base.id:(context)=>Base()
 
 };

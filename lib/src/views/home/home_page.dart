@@ -36,29 +36,31 @@ class _HomepageState extends ConsumerState<Homepage> {
                   children: [
                     Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
                     Spacer(),
-                    Icon(Icons.notification_add
-                    ,size: 16,color: AppTheme.primary,),
-                    Column(
-                      children: [
-                        Column(
-                          children: [
-                            Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
-                          Row(
-                            children: [
-                              Icon(Icons.access_time,size: 16,color: AppTheme.primary,),
-                              Text('1:35:27'),
-                            ],
-                          ),
-                          ],
-                        )
-                      ],
-                    )
+                    // Icon(Icons.notification_add
+                    // ,size: 16,color: AppTheme.primary,),
+                    Avatar()
+                    // Column(
+                    //   children: [
+                    //     Column(
+                    //       children: [
+                    //         Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+                    //       // Row(
+                    //       //   children: [
+                    //       //     Icon(Icons.access_time,size: 16,color: AppTheme.primary,),
+                    //       //     Text('1:35:27'),
+                    //       //   ],
+                    //       // ),
+                    //
+                    //       ],
+                    //     )
+                    //  ],
+                    //)
                   ],
                 ),
                 Gap(16.h),
                 Row(
                   children: [
-                    Avatar(),
+                    Icon(Icons.home_filled,color: AppTheme.primary,),Text('Home',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500) ),
                     Spacer(),
                     Column(
                       children: [
@@ -69,61 +71,14 @@ class _HomepageState extends ConsumerState<Homepage> {
 
                           ],
                         ),
-                        Text('Date')
+                        Gap(5),
+                        Text('Date',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500) )
                       ],
                     )
                     ],
                 ),
                 Gap(16.h),
-                Row(
-                  children: [
-                    Text('Consultants Online',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 20.sp,fontWeight: FontWeight.w500)),
-                    Gap(10),
-                    CircleAvatar(radius: 3,backgroundColor: AppTheme.primary,),
-                  ],
-                ),
-                Gap(16.h),
-                SizedBox(
-                  height: 100,
-                  child: ListView.builder(
-                    itemCount: 10,
-                    shrinkWrap:true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left:8.0,right: 8),
-                        child: ConsultantAvatar(),
-                      );
-                    }
-                  ),
-                ),
-                Container(
-                  height: 43.h,
-                  width:382.w,
-                  child:Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: TextField(
 
-                      cursorColor: AppTheme.black2,
-                      decoration: InputDecoration
-                        (hintText: 'Search for a consultant by name or specialty',
-                          hintStyle:
-                          GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w400) ,
-                          prefixIcon: Icon(Icons.search,color:
-                        AppTheme.black2,
-                      ),
-                      enabledBorder:
-                          InputBorder.none,
-                        focusedBorder: InputBorder.none
-
-
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(color: AppTheme.white,borderRadius:
-                      BorderRadius.circular(20)
-                  ),
-                ),
                 Gap(16.h),
 
                 Center(
@@ -173,16 +128,34 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
+        RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Welcome',
+                  style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      color: AppTheme.primary,
+                      fontWeight: FontWeight.w400)),
+              TextSpan(
+                  text: ' Dr. Henry Onah',
+                  style: GoogleFonts.poppins(
+                      fontSize: 12.sp,
+                      color: AppTheme.black2,
+                      fontWeight: FontWeight.w400)),
+            ],
+          ),
+        ),
+
+       Gap(5),
         CircleAvatar(
-          child: Icon(Icons.person,color:
-            AppTheme.primary,),
+          backgroundImage: AssetImage('assets/consultant_image.png'),
           backgroundColor: AppTheme.white,
         ),
 
-        Text('Margaret Elom',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600))
-      ],
+       ],
     );
   }
 }

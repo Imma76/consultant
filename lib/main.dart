@@ -1,5 +1,6 @@
 import 'package:consultant/firebase_options.dart';
 import 'package:consultant/src/routes/routes.dart';
+import 'package:consultant/src/views/home/base.dart';
 import 'package:consultant/src/views/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Consultant patient',
             routes:routes,
-            initialRoute:WelcomeScreen.id,
+            initialRoute:Base.id,
 
             theme: ThemeData(
               primarySwatch: Colors.blue,
