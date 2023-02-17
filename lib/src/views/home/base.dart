@@ -2,6 +2,8 @@ import 'package:consultant/src/themes/app_theme.dart';
 import 'package:consultant/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 
+import '../appointments/appointments.dart';
+
 
 class Base extends StatefulWidget {
   static const id ='base';
@@ -14,10 +16,9 @@ class Base extends StatefulWidget {
 class _BaseState extends State<Base> {
   List<Widget> widgetList=[
     Homepage(),
+    Appointments(),
     Homepage(),
     Homepage(),
-    Homepage(
-    ),
   ];
   int currentIndex =0;
   @override

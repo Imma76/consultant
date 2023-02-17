@@ -39,22 +39,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                     // Icon(Icons.notification_add
                     // ,size: 16,color: AppTheme.primary,),
                     Avatar()
-                    // Column(
-                    //   children: [
-                    //     Column(
-                    //       children: [
-                    //         Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
-                    //       // Row(
-                    //       //   children: [
-                    //       //     Icon(Icons.access_time,size: 16,color: AppTheme.primary,),
-                    //       //     Text('1:35:27'),
-                    //       //   ],
-                    //       // ),
-                    //
-                    //       ],
-                    //     )
-                    //  ],
-                    //)
+
                   ],
                 ),
                 Gap(16.h),
