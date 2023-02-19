@@ -19,6 +19,7 @@ class _BaseState extends State<Base> {
     Appointments(),
     Homepage(),
     Homepage(),
+
   ];
   int currentIndex =0;
   @override

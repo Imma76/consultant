@@ -4,6 +4,7 @@
 import 'package:consultant/src/views/appointments/appointments.dart';
 import 'package:consultant/src/views/authentication/confirmation_screen.dart';
 import 'package:consultant/src/views/authentication/great_job.dart';
+import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:flutter/material.dart';
 
 import '../views/authentication/login.dart';
@@ -20,6 +21,7 @@ Map<String,WidgetBuilder>routes={
   GreatJob.id:(context)=>GreatJob(),
   ConfirmationScreen.id:(context)=>ConfirmationScreen(),
   Base.id:(context)=>Base(),
-  Appointments.id:(context)=>Appointments()
+  Appointments.id:(context)=>Appointments(),
+  PatientMedicalHistory.id:(context)=>PatientMedicalHistory()
 
 };

@@ -22,6 +22,7 @@ class _AppointmentsState extends ConsumerState<Appointments> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor:
       AppTheme.lightGreen,
       body: Padding(
@@ -34,8 +35,7 @@ class _AppointmentsState extends ConsumerState<Appointments> {
               children: [
                 Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
                 Spacer(),
-                // Icon(Icons.notification_add
-                // ,size: 16,color: AppTheme.primary,),
+
                 Avatar()
 
               ],
