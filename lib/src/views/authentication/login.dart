@@ -1,4 +1,5 @@
 import 'package:consultant/src/views/authentication/sign_up.dart';
+import 'package:consultant/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../themes/app_theme.dart';
+import '../home/base.dart';
 
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -38,10 +40,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       padding: const EdgeInsets.only(bottom:20.0),
                       child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
                     ),
-                    Text('Consultant Sign in',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                    Padding(
+                      padding: const EdgeInsets.only(top:13.0),
+                      child: Text('Consultant Sign in',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                    ),
                   ],
                 ),Gap(104.h),
-                Text('Email',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+                Text('Username',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
                 Gap(8.h),
                 SizedBox(
                   height:
@@ -79,9 +84,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 Gap(104.h),
                 ElevatedButton(onPressed: (){
+                  Navigator.pushNamed(context, Base.id);
 
-
-                }, child:Text('Login',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+                }, child:Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
             Gap(24.h),
                 GestureDetector(
               onTap: () {

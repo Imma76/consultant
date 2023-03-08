@@ -44,6 +44,10 @@ dependencies:
   flutter_screenutil:
   flutter_riverpod:
   flutter_launcher_icons:
+  flutter_native_splash:
+
+
+  device_preview:
   table_calendar:
 
 

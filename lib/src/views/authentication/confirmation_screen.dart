@@ -1,3 +1,4 @@
+import 'package:consultant/src/views/home/base.dart';
 import 'package:consultant/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +45,7 @@ class ConfirmationScreen extends StatelessWidget {
             Gap(181.h),
 
             ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, Homepage.id);
+              Navigator.pushNamed(context, Base.id);
             }, child:Text('Next',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
 
 

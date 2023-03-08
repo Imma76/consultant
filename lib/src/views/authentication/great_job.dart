@@ -14,6 +14,7 @@ class GreatJob extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
      body: Padding(
        padding:  EdgeInsets.only(left:24.0.w,right:24.w),
        child: Column(
@@ -26,7 +27,7 @@ class GreatJob extends StatelessWidget {
          ),
 
            Gap(24.h),
-           Text('Great job, you are almost signed up as a consultant, click “Next” to get to thelast phase of your sign up process',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w500),),
+           Text('Great job, you are almost signed up as a consultant, click “Next” to get to the last phase of your sign up process',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w500),),
 
           Gap(181.h),
            ElevatedButton(onPressed: (){

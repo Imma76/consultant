@@ -21,64 +21,70 @@ class Appointments extends ConsumerStatefulWidget {
 class _AppointmentsState extends ConsumerState<Appointments> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
 
-      backgroundColor:
-      AppTheme.lightGreen,
-      body: Padding(
-        padding: const EdgeInsets.only(left:24.0,right:24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gap(30.h),
-            Row(
-              children: [
-                Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
-                Spacer(),
+        backgroundColor:
+        AppTheme.lightGreen,
 
-                Avatar()
+        body: Padding(
+          padding: const EdgeInsets.only(left:24.0,right:24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(30.h),
+              Row(
 
-              ],
-            ),
-            Gap(16.h),
-            Row(
-              children: [
-                Icon(Icons.notification_add
-                  ,size: 16,color: AppTheme.primary,),
-                Text('Appointments',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500) ),
-                Spacer(),
-                Column(
-                  children: [
-                    Row(
+                children: [
+                  Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
+                  Spacer(),
+                  // Icon(Icons.notification_add
+                  // ,size: 16,color: AppTheme.primary,),
+                  Padding(
+                    padding: const EdgeInsets.only(top:18.0),
+                    child: Avatar(),
+                  )
 
-                      children: [
-                        TimeWidget(time: '06',),Gap(8.w), TimeWidget(time: '1',),Gap(8.w), TimeWidget(time: '23',)
+                ],
+              ),
+              Gap(16.h),
+              Row(
+                children: [
+                  Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w),
 
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.only(top:5.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom:3.0),
+                      child: Text('Appointments',style:  GoogleFonts.dmSans(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500) ),
                     ),
-                    Gap(5),
-                    Text('Date',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500) )
-                  ],
-                )
-              ],
-            ),
-            Gap(16.h),
-            Text('Today',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700) ),
-           Gap(24.h),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context,indec) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: AppointmentCard(),
-                );
-              }
-            ),
-            Gap(20),
-            Text('Yesterday',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700) ),
-            Gap(10.h),
-            ListView.builder(
+                  ),
+                  Spacer(),
+                  Column(
+
+                    mainAxisAlignment:
+                    MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:8.0),
+                        child: Row(
+
+                          children: [
+                            TimeWidget(time: '06',),Gap(8.w), TimeWidget(time: '1',),Gap(8.w), TimeWidget(time: '23',)
+
+                          ],
+                        ),
+                      ),
+                      Gap(5),
+                      Text('Date',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500) )
+                    ],
+                  )
+                ],
+              ),
+              Gap(16.h),
+              Text('Today',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700) ),
+             Gap(24.h),
+              ListView.builder(
                 shrinkWrap: true,
                 itemCount: 3,
                 itemBuilder: (context,indec) {
@@ -87,8 +93,22 @@ class _AppointmentsState extends ConsumerState<Appointments> {
                     child: AppointmentCard(),
                   );
                 }
-            ),
-          ],
+              ),
+              Gap(20),
+              Text('Yesterday',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700) ),
+              Gap(10.h),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 3,
+                  itemBuilder: (context,indec) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppointmentCard(),
+                    );
+                  }
+              ),
+            ],
+          ),
         ),
       ),
     );

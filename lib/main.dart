@@ -3,6 +3,7 @@ import 'package:consultant/src/routes/routes.dart';
 import 'package:consultant/src/views/home/base.dart';
 import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:consultant/src/views/welcome.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
@@ -15,7 +16,12 @@ Future<void> main() async{
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(const MyApp());
+  runApp(
+ // DevicePreview(builder: (context)=>
+      const MyApp()
+
+  //)
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,12 +32,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: const Size(430, 932),
-
+        minTextAdapt: true,
+        scaleByHeight: false,
+        splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
             title: 'Consultant patient',
             routes:routes,
-            initialRoute:PatientMedicalHistory.id,
+            builder: DevicePreview.appBuilder,
+            initialRoute:WelcomeScreen.id,
 
             theme: ThemeData(
               primarySwatch: Colors.blue,

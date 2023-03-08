@@ -1,6 +1,10 @@
 import 'package:consultant/src/themes/app_theme.dart';
+import 'package:consultant/src/views/appointments/appointment_reschedule.dart';
 import 'package:consultant/src/views/home/home_page.dart';
+import 'package:consultant/src/views/profile/consultants_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../appointments/appointments.dart';
 
@@ -17,8 +21,8 @@ class _BaseState extends State<Base> {
   List<Widget> widgetList=[
     Homepage(),
     Appointments(),
-    Homepage(),
-    Homepage(),
+    AppointmentReschedule(),
+    ConsultantProfile(),
 
   ];
   int currentIndex =0;
@@ -29,14 +33,19 @@ class _BaseState extends State<Base> {
         [currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.black,
+        unselectedItemColor: AppTheme.lightBlack,
 
-        selectedItemColor: Colors.black,
+        selectedItemColor: AppTheme.lightBlack,
+        unselectedLabelStyle: GoogleFonts.dmSans(fontWeight:
+        FontWeight.w500,fontSize: 12.sp,color: AppTheme.lightBlack),
+        selectedLabelStyle: GoogleFonts.dmSans(fontWeight:
+        FontWeight.w500,fontSize: 12.sp,color: AppTheme.lightBlack)
+        ,
         unselectedFontSize: 12,
         backgroundColor: AppTheme.lightGreen,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled,color: AppTheme.black,),label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded),label: 'Appointments'),
+          BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded,color: AppTheme.black,),label: 'Appointments'),
           BottomNavigationBarItem(icon: Image.asset("assets/calendar.png",height: 24,),label: 'Appointment \n Re-schedule '),
           BottomNavigationBarItem(icon: Image.asset("assets/profile.png",height: 24,),label: 'Profile'),
 
