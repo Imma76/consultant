@@ -1,3 +1,4 @@
+import 'package:consultant/src/all_providers/all_providers.dart';
 import 'package:consultant/src/views/authentication/great_job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +30,14 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
   int currentIndex=0;
   PageController pageController= PageController();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(authProvider);
+  }
+  @override
   Widget build(BuildContext context) {
+    final authController = ref.watch(authProvider);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -99,11 +107,12 @@ Gap(40.h),
 }
 
 
-class Field1 extends StatelessWidget {
+class Field1 extends ConsumerWidget {
   const Field1({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+    final authController = ref.watch(authProvider);
     return Column(
       crossAxisAlignment:
       CrossAxisAlignment.start,
@@ -116,6 +125,7 @@ class Field1 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+              controller: authController.surNameController,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -134,6 +144,8 @@ class Field1 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+
+              controller:authController.firstNameController,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -152,6 +164,7 @@ class Field1 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+              controller: authController.lastNameController,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -171,6 +184,7 @@ class Field1 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+              controller: authController.emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
 
@@ -189,11 +203,12 @@ class Field1 extends StatelessWidget {
 
 
 
-class Field2 extends StatelessWidget {
+class Field2 extends ConsumerWidget {
   const Field2({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+    final authController = ref.watch(authProvider);
     return Column(
       crossAxisAlignment:
       CrossAxisAlignment.start,
@@ -206,6 +221,7 @@ class Field2 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+              controller: authController.phoneNoController,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -224,6 +240,7 @@ class Field2 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+              controller: authController.stateOfOriginController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
@@ -243,6 +260,7 @@ class Field2 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
+              controller: authController.lgaController,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -262,7 +280,8 @@ class Field2 extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
-
+              controller:
+              authController.ageController,
               decoration: InputDecoration(
 
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
@@ -280,11 +299,12 @@ class Field2 extends StatelessWidget {
 
 
 
-class Field3 extends StatelessWidget {
+class Field3 extends ConsumerWidget {
   const Field3({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+    final authController = ref.watch(authProvider);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment:
@@ -298,6 +318,9 @@ class Field3 extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
+
+                controller: authController.genderController
+                ,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -316,6 +339,7 @@ class Field3 extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
+                controller: authController.residentialAddressController,
                 keyboardType: TextInputType.number,
 
                 decoration: InputDecoration(
@@ -336,6 +360,7 @@ class Field3 extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
+                controller: authController.specialtyController,
                 keyboardType: TextInputType.number,
 
                 decoration: InputDecoration(
@@ -398,11 +423,12 @@ class Field3 extends StatelessWidget {
 
 
 
-class Field4 extends StatelessWidget {
+class Field4 extends ConsumerWidget {
   const Field4({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+    final authController = ref.watch(authProvider);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment:
@@ -498,6 +524,7 @@ class Field4 extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
+                controller: authController.historyController,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 

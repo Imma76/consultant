@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore:
   firebase_auth: ^4.2.7
   firebase_core:
+  bot_toast:
   google_fonts:
 
   flutter_screenutil:
