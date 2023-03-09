@@ -24,6 +24,7 @@ class Consultant{
   ,this.stateOfOrigin,this.lga});
 
   Consultant.fromJson(Map<dynamic,dynamic> data){
+
     userName=data['userName'];
     email=data['email'];
     firstName=data['firstName'];
@@ -48,9 +49,9 @@ class Consultant{
     data['firstName']=firstName;
     data['lastName']=lastName;
     data['age']=age;
-   data['url']= cv;
-    data['residentialAddress']=residentialAddress
-    ;
+   data['cvUrl']= cv;
+   data['medicalLicense']=medicalLicense;
+    data['residentialAddress']=residentialAddress;
     data['gender']=gender;
    data['photoUrl']= photoUrl;
   data['history']=  history;

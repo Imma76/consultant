@@ -1,4 +1,5 @@
 import 'package:consultant/src/all_providers/all_providers.dart';
+import 'package:consultant/src/utils/widgets/loader.dart';
 import 'package:consultant/src/views/authentication/great_job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../themes/app_theme.dart';
+import '../../utils/widgets/reusable_widget.dart';
 
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -34,71 +36,79 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
     // TODO: implement initState
     super.initState();
     ref.read(authProvider);
+    final centralController = ref.read(centralProvider);
   }
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authProvider);
+    final centralController = ref.watch(centralProvider);
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding:  EdgeInsets.only(left:24.w,right:24.w),
-          child: Column(
-            children: [
-              Gap(35.h),
-              Row(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding:  EdgeInsets.only(left:24.w,right:24.w),
+            child: Column(
+              children: [
+                Gap(35.h),
+                Row(
 
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom:20.0),
-                    child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:12.0),
-                    child: Text('Sign up as a consultant',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
-                  ),
-                ],
-              ),
-              Gap(80.h),
-
-              Expanded(
-                child: PageView.builder(
-                  controller: pageController,
-                    itemCount: formList.length,
-                    onPageChanged:(int){
-                    setState(() {
-                      currentIndex=int;
-                    });
-                    },
-                    itemBuilder: (context,index){
-
-                  return formList[index];
-                }),
-              ),
-              SizedBox(
-                height:20.h,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: formList.length,
-                  itemBuilder: (context,index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: CircleAvatar(backgroundColor:currentIndex==index? AppTheme.primary:AppTheme.white2,radius: 3),
-                    );
-                  }
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:20.0),
+                      child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:12.0),
+                      child: Text('Sign up as a consultant',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                    ),
+                  ],
                 ),
-              ),
-              Gap(44.h),
-              ElevatedButton(onPressed: (){
-                pageController
-                .nextPage(duration: Duration(milliseconds: 100), curve: Curves.linear);
-                if(currentIndex ==3){
+                Gap(80.h),
 
-                 Navigator.pushNamed(context, GreatJob.id);
-                }
-              }, child:Text(currentIndex !=3?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+                SizedBox(
+                  height: 456.h,
+                  child: PageView.builder(
+                    controller: pageController,
+                      itemCount: formList.length,
+                      onPageChanged:(int){
+                      setState(() {
+                        currentIndex=int;
+                      });
+                      },
+                      itemBuilder: (context,index){
+
+                    return formList[index];
+                  }),
+                ),
+                SizedBox(
+                  height:20.h,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: formList.length,
+                    itemBuilder: (context,index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: CircleAvatar(backgroundColor:currentIndex==index? AppTheme.primary:AppTheme.white2,radius: 3),
+                      );
+                    }
+                  ),
+                ),
+                Gap(44.h),
+                ElevatedButton(onPressed: ()async{
+                  pageController
+                  .nextPage(duration: Duration(milliseconds: 100), curve: Curves.linear);
+                  if(currentIndex ==3){
+
+                  if(authController.checkInputForSignUp()){
+                    await authController.signUp(centralController);
+                  }
+                  }
+                }, child:centralController
+                  .isAppLoading?Indicator(color: AppTheme.white,):Text(currentIndex !=3?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
 Gap(40.h),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -117,25 +127,7 @@ class Field1 extends ConsumerWidget {
       crossAxisAlignment:
       CrossAxisAlignment.start,
       children: [
-        Text('Surname',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
-        Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.surNameController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
-        Gap(24.h),
         Text('First Name',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         SizedBox(
@@ -195,7 +187,26 @@ class Field1 extends ConsumerWidget {
               ),
             ),
           ),
+        ), Gap(24.h),
+        Text('Enter a password',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+        Gap(8.h),
+        SizedBox(
+          height:
+          60.h,
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: TextFormField(
+              controller: authController.passwordController,
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
+
+                  focusedBorder:
+                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
+              ),
+            ),
+          ),
         ),
+
       ],
     );
   }
@@ -384,7 +395,16 @@ class Field3 extends ConsumerWidget {
                 child:  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),),
+                    GestureDetector(
+                        onTap: ()async{
+
+                         await authController.pickCv();
+                        },
+                        child: Container(
+                          width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),)),
+
+                  Text(authController.cvFile
+                  !=null?'${authController.cvFile?.files.single.name}':'',softWrap: true,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 10),),
                   ],
                 ),
                 decoration: BoxDecoration(
@@ -397,20 +417,28 @@ class Field3 extends ConsumerWidget {
             ),
           ),
           Gap(5.h),
-          Padding(
+          authController
+          .load?Indicator(color: AppTheme.primary
+            ,):Padding(
             padding:  const EdgeInsets.all(3.0),
-            child: Container(
-              height:
-              33.78.h,
-              width:126.w,
-              child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color:
-                    AppTheme.primary
-                ),
-                borderRadius: BorderRadius.circular(9)
-              ),),
+            child: GestureDetector(
+              onTap: ()async{
+                print('poll');
+                await authController.uploadCv();
+              },
+              child: Container(
+                height:
+                33.78.h,
+                width:126.w,
+                child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color:
+                      AppTheme.primary
+                  ),
+                  borderRadius: BorderRadius.circular(9)
+                ),),
+            ),
           ),
           Gap(24.h),
 
@@ -447,7 +475,15 @@ class Field4 extends ConsumerWidget {
                   child:  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),),
+                      GestureDetector(
+                          onTap:(){
+                            authController
+                            .pickMedicalLicense();
+                          },
+                          child: Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),)),
+                      Text(authController.medicalLicense
+                          !=null?'${authController.medicalLicense?.files.single.name}':'',softWrap: true,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 10),),
+
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -460,20 +496,27 @@ class Field4 extends ConsumerWidget {
             ),
           ),
           Gap(5.h),
-          Padding(
+          authController
+              .load?Indicator(color: AppTheme.primary
+            ,):Padding(
             padding: const EdgeInsets.all(3.0),
-            child: Container(
-              height:
-              33.78.h,
-              width:126.w,
-              child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color:
-                      AppTheme.primary
-                  ),
-                  borderRadius: BorderRadius.circular(9)
-              ),),
+            child: GestureDetector(
+              onTap: ()async{
+                await authController.uploadMedicalLicense();
+              },
+              child: Container(
+                height:
+                33.78.h,
+                width:126.w,
+                child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color:
+                        AppTheme.primary
+                    ),
+                    borderRadius: BorderRadius.circular(9)
+                ),),
+            ),
           ),
           Gap(24.h),
           Text('Upload photo',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
@@ -487,7 +530,15 @@ class Field4 extends ConsumerWidget {
                   child:  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),),
+                      GestureDetector(
+                          onTap:(){
+                            authController
+                                .pickImage();
+                          },
+                          child: Container(width: 126.w,height:49.h,color: AppTheme.grey,child: Center(child: Text('Choose file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),)),
+                      Text(authController.imageFile
+                          !=null?'${authController.imageFile?.name}':'',softWrap: true,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 10),),
+
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -500,13 +551,20 @@ class Field4 extends ConsumerWidget {
             ),
           ),
           Gap(5.h),
-          Padding(
+          authController
+              .load?Indicator(color: AppTheme.primary
+            ,): Padding(
             padding: const EdgeInsets.all(3.0),
             child: Container(
               height:
               33.78.h,
               width:126.w,
-              child:  Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),)),
+              child:  GestureDetector(
+                  onTap: ()async{
+
+                    await authController.uploadImage();
+                  },
+                  child: Center(child: Text('Upload file',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 14.sp,fontWeight: FontWeight.w400),))),
               decoration: BoxDecoration(
                   border: Border.all(
                       color:

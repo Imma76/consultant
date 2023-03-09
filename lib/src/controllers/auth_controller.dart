@@ -1,6 +1,11 @@
 
+import 'dart:io';
+
+import 'package:consultant/src/controllers/file_controller.dart';
 import 'package:consultant/src/controllers/user_controller.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../main.dart';
 import '../models/consultant_model.dart';
@@ -27,8 +32,26 @@ class AuthController extends ChangeNotifier{
   TextEditingController historyController= TextEditingController();
 
   TextEditingController userNameController= TextEditingController();
+  FileController _fileController = FileController();
+   XFile? imageFile;
+  FilePickerResult? cvFile;
+  FilePickerResult? medicalLicense;
+  String? imageUrl ;
+  String? cvUrl;
+  String? medicalLicenseUrl ;
 
-
+  pickImage()async{
+    imageFile= await _fileController.pickPhoto();
+    notifyListeners();
+  }
+  pickCv()async{
+    cvFile = await _fileController.pickCv();
+    notifyListeners();
+  }
+  pickMedicalLicense()async{
+    medicalLicense = await _fileController.pickMedicalLicense();
+    notifyListeners();
+  }
 
 
   AuthService authService = AuthService();
@@ -54,8 +77,8 @@ class AuthController extends ChangeNotifier{
   }
 
   bool checkInputForSignUp(){
-    if(surNameController.text.isEmpty){
-      showToast('fill in surname');
+    if(phoneNoController.text.isEmpty){
+      showToast('fill in mobile number');
       return false;;
     }
     if(firstNameController.text.isEmpty){
@@ -83,8 +106,49 @@ class AuthController extends ChangeNotifier{
       showToast('fill in your password');
       return false;
     }
+    if(stateOfOriginController.text.isEmpty){
+      showToast('fill in your state of origin');
+      return false;
+    }
+    if(lgaController.text.isEmpty){
+      showToast('fill in your local government');
+      return false;
+    }
+
+    if(residentialAddressController.text.isEmpty){
+      showToast('fill in your residential address');
+      return false;
+    }
+    if(passwordController.text.isEmpty){
+      showToast('fill in your password');
+      return false;
+    }
+    if(specialtyController.text.isEmpty){
+      showToast('fill in your specialty');
+      return false;
+    }
+
+    if(historyController
+        .text.isEmpty){
+      showToast('fill in your history');
+      return false;
+    }
+    // if(cvUrl ==null){
+    //   showToast('upload your cv');
+    //   return false;
+    // }
+    // if(medicalLicenseUrl ==null){
+    //   showToast('upload your medical license');
+    //   return false;
+    // }
+    // if(imageUrl ==null){
+    // showToast('upload your image');
+    // return false;
+    // }
     return true;
   }
+
+
 
   bool checkInputForSignIn(){
     if(emailController.text.isEmpty){
@@ -97,14 +161,54 @@ class AuthController extends ChangeNotifier{
     }
     return true;
   }
+
+  uploadImage()async{
+    print(imageFile);
+    if(imageFile!=null){
+      load = true;
+      notifyListeners();
+      imageUrl = await _fileController.uploadFileToDb(File(imageFile!.path),filePath: 'photo',fileName:
+      imageFile!.name.toString());
+      load = false;
+      notifyListeners();
+    }
+
+
+  }
+  uploadCv()async{
+    if(cvFile!=null){
+      load = true;
+      notifyListeners();
+      cvUrl=await _fileController.uploadFileToDb(File(cvFile!.files.single.path.toString()),filePath: 'cv',fileName: cvFile
+      !.files
+      .single.name);
+      load = false;
+      notifyListeners();
+    }
+
+  }
+  uploadMedicalLicense()async{
+    if(medicalLicense!=null){
+      load = true;
+      notifyListeners();
+
+      medicalLicenseUrl  = await _fileController.uploadFileToDb(File(medicalLicense!.files.single.path.toString()),filePath: 'medicalLicence',fileName: medicalLicense!.files.single.name);
+      load = false;
+      notifyListeners();
+    }
+
+  }
+
+
   Future signUp(centralState)async{
-    centralState.stopLoading();
+    centralState;
     final user= await  authService.signUp(email: emailController.text.trim(),password: passwordController.text);
 
     if(user == null){
       centralState.stopLoading();
       return;
     }
+
     Consultant consultant =Consultant(
       email: emailController.text.trim(),
       userName: userNameController.text.trim(),
@@ -114,17 +218,17 @@ class AuthController extends ChangeNotifier{
       lga: lgaController.text.trim(),
       residentialAddress: residentialAddressController.text.trim(),
       phoneNumber: phoneNoController.text.trim(),
-      medicalLicense:'',
-      cv: '',
+      medicalLicense:medicalLicenseUrl.toString(),
+      cv: cvUrl.toString(),
       stateOfOrigin: stateOfOriginController.text.trim(),
-      photoUrl: '',
+      photoUrl: imageUrl.toString(),
       createdAt: DateTime.now(),
       age:ageController.text.trim(),
       gender: genderController.text.trim(),
       userId:user.uid,
       areaOfSpecialty: specialtyController.text.trim(),
     );
-   final createUser = await ConsultantService.createPatient(consultant);
+   final createUser = await ConsultantService.createConsultant(consultant);
     if(createUser  == null){
       centralState.stopLoading();
       return;

@@ -31,6 +31,7 @@ class ConsultantService{
      if(!user.exists){
        return null;
      }
+
        return Consultant.fromJson(user.data() as Map
        );
 
@@ -41,7 +42,7 @@ class ConsultantService{
    }
  }
 
- static Future createPatient(Consultant consultant)async{
+ static Future createConsultant(Consultant consultant)async{
    try{
      final user = await Collections.consultant.doc(consultant.userId).set(consultant.toJson());
      return true;

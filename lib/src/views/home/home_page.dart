@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../all_providers/all_providers.dart';
+import '../../controllers/user_controller.dart';
 import '../../themes/app_theme.dart';
 
 
@@ -20,7 +23,15 @@ class Homepage extends ConsumerStatefulWidget {
 
 class _HomepageState extends ConsumerState<Homepage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final centralController = ref.read(centralProvider);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userController = ref.watch(userProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor:
@@ -68,7 +79,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                           child: Row(
 
                             children: [
-                              TimeWidget(time: '06',),Gap(8.w), TimeWidget(time: '1',),Gap(8.w), TimeWidget(time: '23',)
+                              TimeWidget(time: DateTime.now().day.toString(),),Gap(8.w), TimeWidget(time: DateTime.now().month.toString(),),Gap(8.w), TimeWidget(time: '${DateTime.now().year}'.split('0')[1],)
 
                             ],
                           ),
@@ -83,20 +94,25 @@ class _HomepageState extends ConsumerState<Homepage> {
 
                 Gap(16.h),
 
-                Center(
-                  child: Container(width: 295.w,height:259.h,
-                    child: Center(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('15 tips to make your doctor\'s consultation better',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
-                    )),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors:[
-                    Color.fromRGBO(
-                      224, 239, 48, 0.74),
-                    Color.fromRGBO(72, 181, 83, 0.3922)
-                  ],)),),
+                GestureDetector(
+                  onTap: ()async{
+                    await FirebaseAuth.instance.signOut();
+                  },
+                  child: Center(
+                    child: Container(width: 295.w,height:259.h,
+                      child: Center(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('15 tips to make your doctor\'s consultation better',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
+                      )),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors:[
+                      Color.fromRGBO(
+                        224, 239, 48, 0.74),
+                      Color.fromRGBO(72, 181, 83, 0.3922)
+                    ],)),),
+                  ),
                 ),
                 Gap(24.h),
                 Center(
@@ -123,13 +139,14 @@ class _HomepageState extends ConsumerState<Homepage> {
   }
 }
 
-class Avatar extends StatelessWidget {
+class Avatar extends ConsumerWidget {
   const Avatar({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+
     return Row(
       children: [
         RichText(
@@ -142,7 +159,7 @@ class Avatar extends StatelessWidget {
                       color: AppTheme.primary,
                       fontWeight: FontWeight.w600)),
               TextSpan(
-                  text: ' Dr. Henry Onah',
+                  text: ' Dr.${userController.consultant?.firstName}',
                   style: GoogleFonts.poppins(
                       fontSize: 12.sp,
                       color: AppTheme.black2,

@@ -15,6 +15,7 @@ class UserController extends ChangeNotifier{
     consultant= await ConsultantService.findConsultantById(FirebaseAuth
        .instance.currentUser
    !.uid);
+
    centralState.stopLoading();
 
    notifyListeners();
