@@ -13,7 +13,7 @@ class ConsultantService{
       QuerySnapshot user = await Collections.patientCollection.where(userName,isEqualTo:"userName").get();
       if(user.docs.isNotEmpty){
         final userData = user as Map<dynamic,dynamic>;
-        return Consultant.fromJson(userData);
+        return ConsultantModel.fromJson(userData);
       }
       return null;
 
@@ -32,7 +32,7 @@ class ConsultantService{
        return null;
      }
 
-       return Consultant.fromJson(user.data() as Map
+       return ConsultantModel.fromJson(user.data() as Map
        );
 
    }on SocketException{
@@ -42,7 +42,7 @@ class ConsultantService{
    }
  }
 
- static Future createConsultant(Consultant consultant)async{
+ static Future createConsultant(ConsultantModel consultant)async{
    try{
      final user = await Collections.consultant.doc(consultant.userId).set(consultant.toJson());
      return true;

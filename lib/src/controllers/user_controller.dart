@@ -8,7 +8,7 @@ import 'central_state.dart';
 
 class UserController extends ChangeNotifier{
 
- Consultant? consultant;
+ ConsultantModel? consultant;
   init()async{
 
     centralState.startLoading();

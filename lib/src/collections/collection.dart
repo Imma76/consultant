@@ -8,4 +8,5 @@ class Collections{
 
   static CollectionReference patientCollection = firebaseCloud.collection("patients");
   static CollectionReference consultant = firebaseCloud.collection("consultants");
+  static CollectionReference appointment = firebaseCloud.collection("appointment");
 }

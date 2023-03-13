@@ -209,7 +209,7 @@ class AuthController extends ChangeNotifier{
       return;
     }
 
-    Consultant consultant =Consultant(
+    ConsultantModel consultant =ConsultantModel(
       email: emailController.text.trim(),
       userName: userNameController.text.trim(),
       history: historyController.text.trim(),

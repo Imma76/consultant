@@ -23,15 +23,15 @@ class Homepage extends ConsumerStatefulWidget {
 
 class _HomepageState extends ConsumerState<Homepage> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    final centralController = ref.read(centralProvider);
-  }
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   final centralController = ref.read(centralProvider);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final userController = ref.watch(userProvider);
+   // final userController = ref.watch(userProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor:

@@ -70,7 +70,10 @@ class _AppointmentRescheduleState extends ConsumerState<AppointmentReschedule> {
                         child: Row(
 
                           children: [
-                            TimeWidgetReSchedule(time: '06',),Gap(8.w), TimeWidget(time: '1',),Gap(8.w), TimeWidget(time: '23',)
+                           // TimeWidget(time: DateTime.now().day.toString(),),Gap(8.w), TimeWidget(time: DateTime.now().month.toString(),),Gap(8.w), TimeWidget(time: '${DateTime.now().year}'.split('0')[1],)
+
+                            TimeWidgetReSchedule(time: DateTime.now().day.toString(),),Gap(8.w), TimeWidget(time: DateTime.now().month.toString(),),Gap(8.w), TimeWidget(time: '${DateTime.now().year}'.split('0')[1],)
+
 
                           ],
                         ),

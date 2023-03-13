@@ -1,4 +1,4 @@
-class Consultant{
+class ConsultantModel{
 
   String? userName;
   String? email;
@@ -17,13 +17,14 @@ class Consultant{
   String? medicalLicense;
   String? photoUrl;
   String?history;
-  Consultant({this.email,this.userName,this.lastName,this.userId,this.firstName,this.phoneNumber,this.areaOfSpecialty,this.cv
+  double? ratings;
+  ConsultantModel({this.email,this.userName,this.lastName,this.userId,this.firstName,this.phoneNumber,this.areaOfSpecialty,this.cv
     ,this.createdAt,this.age,this.gender,this.history
   ,this.medicalLicense,this.photoUrl
   ,this.residentialAddress
-  ,this.stateOfOrigin,this.lga});
+  ,this.stateOfOrigin,this.lga,this.ratings});
 
-  Consultant.fromJson(Map<dynamic,dynamic> data){
+  ConsultantModel.fromJson(Map<dynamic,dynamic> data){
 
     userName=data['userName'];
     email=data['email'];
@@ -39,7 +40,9 @@ class Consultant{
     userId=data['userId'];
     lga=data['lga'];
     phoneNumber=data['phoneNumber'];
-
+    ratings=data['ratings'];
+    stateOfOrigin=data['stateOfOrigin'];
+    areaOfSpecialty=data['areaOfSpecialty'];
   }
 
   toJson(){
@@ -59,6 +62,9 @@ class Consultant{
    data['lga']= lga;
     data['createdAt']=createdAt;
     data['phoneNumber']=phoneNumber;
+    data['ratings']=ratings;
+    data['stateOfOrigin']=stateOfOrigin;
+    data['areaOfSpecialty']=areaOfSpecialty;
     return data;
   }
 }

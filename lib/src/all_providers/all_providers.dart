@@ -5,6 +5,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../controllers/appointment_controller.dart';
 import '../controllers/auth_controller.dart';
 import '../controllers/central_state.dart';
 import '../controllers/user_controller.dart';
@@ -69,3 +70,5 @@ final centralProvider = ChangeNotifierProvider<CentralState>((ref) =>CentralStat
 final userProvider = ChangeNotifierProvider<UserController
 >((ref) => UserController());
 final authProvider = ChangeNotifierProvider<AuthController>((ref) => AuthController());
+
+final appointmentProvider =ChangeNotifierProvider<AppointmentController>((ref) => AppointmentController());

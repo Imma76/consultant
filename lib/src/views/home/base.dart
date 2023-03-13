@@ -22,15 +22,9 @@ class Base extends ConsumerStatefulWidget {
 }
 
 class _BaseState extends ConsumerState<Base> {
-  List<Widget> widgetList=[
-    Homepage(),
-    Appointments(),
-    AppointmentReschedule(),
-    ConsultantProfile(),
 
-  ];
   int currentIndex =0;
-  @override
+  // @override
   // void initState() {
   //   // TODO: implement initState
   //   super.initState();
@@ -38,6 +32,13 @@ class _BaseState extends ConsumerState<Base> {
   // }
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgetList=[
+      Homepage(),
+      Appointments(),
+      AppointmentReschedule(),
+      ConsultantProfile(),
+
+    ];
     return Scaffold(
       body:widgetList
       [currentIndex],

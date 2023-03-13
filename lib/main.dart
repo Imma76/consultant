@@ -89,14 +89,15 @@ class _LoadAppState extends ConsumerState<LoadApp> {
   @override
   Widget build(BuildContext context) {
     final centralController = ref.watch(centralProvider);
-
-    if(centralController.isUserPresent){
-      return Base();
-    }
     if(centralController.isAppLoading){
 
       return Scaffold(body:Indicator());
     }
+    if(centralController.isUserPresent){
+
+      return Base();
+    }
+
     return WelcomeScreen();
 
   }

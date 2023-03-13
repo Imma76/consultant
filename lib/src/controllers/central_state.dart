@@ -1,3 +1,4 @@
+
 import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -71,7 +72,7 @@ class CentralState extends ChangeNotifier{
         user = null;
         isAppLoading = false;
         notifyListeners();
-   //     Navigator.pushNamedAndRemoveUntil(navigatorKey!.currentContext!, LoginScreen.id, (route) => false);
+        //     Navigator.pushNamedAndRemoveUntil(navigatorKey!.currentContext!, LoginScreen.id, (route) => false);
 
 
       }
@@ -93,4 +94,4 @@ class CentralState extends ChangeNotifier{
   }
 }
 
- CentralState centralState =new CentralState();
+CentralState centralState =new CentralState();
