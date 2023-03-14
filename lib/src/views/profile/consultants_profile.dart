@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,12 +52,12 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                 ),
                 Gap(16.h),
                 CircleAvatar(
-                  backgroundImage: AssetImage('assets/consultant_image.png'),
+                  backgroundImage:CachedNetworkImageProvider(userController.consultant!.photoUrl.toString() ,),
                   backgroundColor: AppTheme.white,
                   radius: 58,
                 ),
                 Gap(16),
-                Text('Dr. Henry Onah',style: GoogleFonts
+                Text('Dr. ${userController.consultant!.firstName} ${userController.consultant!.lastName}',style: GoogleFonts
                     .poppins(
                     fontSize: 16.sp,
                     color: AppTheme.black2,
@@ -90,7 +92,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Ikechukwu',
+                                          text: ' ${userController.consultant!.firstName}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
@@ -116,7 +118,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Ikechukwu',
+                                          text: ' ${userController.consultant!.lastName}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
@@ -142,7 +144,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Enugu',
+                                          text: ' ${userController.consultant!.stateOfOrigin}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
@@ -168,7 +170,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Gynacology',
+                                          text: ' ${userController.consultant!.areaOfSpecialty}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2

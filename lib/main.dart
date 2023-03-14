@@ -46,6 +46,8 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return ProviderScope(
             child: MaterialApp(
+              debugShowCheckedModeBanner:
+              false,
               navigatorKey: navigatorKey,
               title: 'Consultant patient',
               routes:routes,

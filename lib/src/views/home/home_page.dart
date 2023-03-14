@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -170,7 +171,7 @@ class Avatar extends ConsumerWidget {
 
        Gap(5),
         CircleAvatar(
-          backgroundImage: AssetImage('assets/consultant_image.png'),
+          backgroundImage:  CachedNetworkImageProvider(userController.consultant!.photoUrl.toString() ,),
           backgroundColor: AppTheme.white,
         ),
 

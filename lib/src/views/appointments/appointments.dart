@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:consultant/src/all_providers/all_providers.dart';
+import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:consultant/src/models/appointment_model.dart';
+import 'package:consultant/src/services/chat_service.dart';
+import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../themes/app_theme.dart';
 import '../../utils/widgets/loader.dart';
+import '../chats/chat_screen.dart';
 import '../home/home_page.dart';
 
 
@@ -52,13 +56,15 @@ class _AppointmentsState extends ConsumerState<Appointments> {
             }
             List<AppointmentModel> todayAppointment=[];
             List<AppointmentModel> yesterdayAppointment=[];
-            List<AppointmentModel> totalAppointment = snapshot.data!.docs.map((e) => AppointmentModel.fromJson(e.data()as Map)).toList();
-
+            List<AppointmentModel> totalAppointment = snapshot.data!.docs.map((e) {
+              final snapshotData = e.data()as Map;
+              snapshotData['appointmentId']=e.id;
+              return AppointmentModel.fromJson(snapshotData);} ).toList();
             for(var appointment in totalAppointment){
-              if(appointment.appointmentStart!.day == DateTime.now().day){
+              if(appointment.appointmentStart!.day == DateTime.now().day && appointment.consultant!.userId==userController.consultant!.userId ){
                 todayAppointment.add(appointment);
-              }
-              if(DateTime.now().isBefore(appointment!.appointmentStart!)==true && DateTime.now().difference(appointment!.appointmentStart!)==1){
+              }else if(DateTime.now().isAfter(appointment!.appointmentStart!)==true &&(DateTime.now().day-1)== appointment!.appointmentStart!.day && appointment.consultant!.userId==userController.consultant!.userId ){
+                print((DateTime.now().day-1)== appointment!.appointmentStart!.day);
                 yesterdayAppointment.add(appointment);
               }
             }
@@ -127,7 +133,7 @@ class _AppointmentsState extends ConsumerState<Appointments> {
 
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: AppointmentCard(appointmentModel: appointment,),
+                        child: AppointmentCard(appointment: appointment,),
                       );
                     }
                   ),
@@ -140,7 +146,7 @@ class _AppointmentsState extends ConsumerState<Appointments> {
                       itemBuilder: (context,index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: AppointmentCard(),
+                          child: AppointmentCard(appointment: yesterdayAppointment[index],),
                         );
                       }
                   ),
@@ -154,29 +160,87 @@ class _AppointmentsState extends ConsumerState<Appointments> {
   }
 }
 
-class AppointmentCard extends StatelessWidget {
-  final AppointmentModel? appointmentModel;
-  const AppointmentCard({
-    Key? key,this.appointmentModel,
+class AppointmentCard extends ConsumerWidget {
+  final AppointmentModel? appointment;
+   AppointmentCard({
+    Key? key,this.appointment,
   }) : super(key: key);
 
+
+  DropdownMenuItem value = DropdownMenuItem(child: Text('View medical history >'));
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+
     return Container(
       height:48.h,width:382.w,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Text('${appointmentModel!.patient!.firstName} ${appointmentModel!.patient!.lastName} ${appointmentModel!.appointmentStart!.hour}:${appointmentModel!.appointmentStart!.minute} - ${appointmentModel!.appointmentEnd!.hour}:${appointmentModel!.appointmentEnd!.minute}  ',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+            Text(
+                ( appointment!.appointmentEnd!.hour >12
+                    &&appointment!.appointmentStart!.hour >
+                    12)?'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${(appointment!.appointmentStart!.hour-12)}:${appointment!.appointmentStart!.minute} - ${ appointment!.appointmentEnd!.hour-12}:${ appointment!.appointmentEnd!.minute} PM':'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${appointment!.appointmentStart!.hour}:${appointment!.appointmentStart!.minute} - ${appointment!.appointmentEnd!.hour}:${appointment!.appointmentEnd!.minute} AM',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
 
             Spacer(),
-            Text(DateTime.now().isAfter(appointmentModel!.appointmentStart!)?'(Session Ended)':'(Session not open)',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500))
+            DateTime.now().hour>=appointment!.appointmentStart!.hour &&DateTime.now().isBefore(appointment!.appointmentEnd!)?
+            GestureDetector(
+                onTap: (){
+
+                  showDialog(context: context, builder: (context, ){
+                  return  Dialog(
+                    child: Container(
+                      height: 80.h,
+                      width: 210.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                              onTap:(){
+                      Navigator.pushNamed(context, PatientMedicalHistory.id,arguments: appointment!.patient);
+                    },
+                              child: Text('View medical history >',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500))),
+                          Gap(10),
+                          GestureDetector(
+                              onTap: ()async{
+
+                                String? chatRoomId = getChatRoomId(appointment!.patient!.firstName!, userController!.consultant!.firstName!);
+                                List<String?> users = [appointment!.patient!.firstName!, userController!.consultant!.firstName!];
+                                Map<String, dynamic> chatRoomMap = {
+                                  'users':users,
+                                  'chatroomid':chatRoomId,
+                                };
+                                await FirebaseMessageService.createChatRoom(chatRoomId, chatRoomMap);
+                                // _provider.removeAndGoToChatScreen(context, adsOwnerNumber, adsOwner, chatRoomId);
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                  return ChatScreen(appointment: appointment,);
+                                }));
+
+                              },
+                              child: Text('Continue session >',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)))
+                        ],
+                      ),
+                    ),
+                  );
+                  });
+
+                },
+                child: Text('Begin session >',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)))
+            :Text(DateTime.now().isAfter(appointment!.appointmentStart!)==true?'(Session Ended)':'(Session not open)',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500))
           ],
         ),
       ),
       decoration: BoxDecoration(color: AppTheme.white),
     );
   }
+  getChatRoomId(String receiverName , String senderName){
+    if (receiverName.substring(0,1).codeUnitAt(0) > senderName.substring(0,1).codeUnitAt(0)){
+      return "$senderName\_$receiverName";
+
+    }else{
+      return "$receiverName\_$senderName";
+    }
+  }
 }
+

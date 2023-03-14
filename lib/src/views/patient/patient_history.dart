@@ -1,3 +1,4 @@
+import 'package:consultant/src/models/patient_model.dart';
 import 'package:consultant/src/utils/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +23,7 @@ class PatientMedicalHistory extends ConsumerStatefulWidget {
 class _PatientMedicalHistoryState extends ConsumerState<PatientMedicalHistory> {
   @override
   Widget build(BuildContext context) {
+    PatientModel patient = ModalRoute.of(context)!.settings.arguments as PatientModel;
     return Scaffold(
       backgroundColor: AppTheme.lightGreen,
       appBar: PrimaryAppBar(context),
@@ -44,8 +46,7 @@ class _PatientMedicalHistoryState extends ConsumerState<PatientMedicalHistory> {
             Gap(16.h),
             Row(
               children: [
-                Icon(Icons.notification_add
-                  ,size: 16,color: AppTheme.primary,),
+                Image.asset("assets/history.png",height: 16.h,width: 16.h,),Gap(5),
                 Text('Patient medical history',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500) ),
                 Spacer(),
                 Column(
@@ -64,15 +65,15 @@ class _PatientMedicalHistoryState extends ConsumerState<PatientMedicalHistory> {
               ],
             ),
             Gap(16.h),
-            Text('JOHN DALTON',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700),),
+            Text('${patient.firstName!.toUpperCase()} ${patient.lastName!.toUpperCase()}',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700),),
             Gap(8),
-            Text('Weight - 74kg',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
+            Text('Weight - ${patient.weight!.toUpperCase()}',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
             Gap(8),
-            Text('Height - 74kg',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
+            Text('Height - ${patient.height!.toUpperCase()}',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
             Gap(8),
-            Text('Allergies',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
+            Text('Allergies - ${patient.allergies!.toUpperCase()}',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
             Gap(8),
-            Text('Medical Conditions',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
+            Text('Medical Conditions - ${patient.medicalConditions!.toUpperCase()}',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w500),),
 
 
           ],

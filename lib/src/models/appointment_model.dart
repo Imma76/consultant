@@ -10,12 +10,13 @@ class AppointmentModel{
   DateTime ? appointmentEnd;
   ConsultantModel? consultant;
   PatientModel? patient;
-  List<String>? updates;
+  List<DateTime>? updates;
   DateTime? createdAt;
   String? appointmentDate;
   String? appointmentTime;
+  String? appointmentId;
   AppointmentModel({this.patient,this.consultant,this.createdAt,this.appointmentDate
-    ,this.appointmentEnd,this.appointmentStart,this.appointmentTime,this.updates,});
+    ,this.appointmentEnd,this.appointmentStart,this.appointmentTime,this.updates,this.appointmentId});
 
   AppointmentModel.fromJson(Map data){
 
@@ -24,9 +25,14 @@ class AppointmentModel{
     appointmentDate=data['appointmentDate'];
     patient=PatientModel.fromJson(data['patient']);
     consultant=ConsultantModel.fromJson(data['consultant']);
-    updates=data['updates'];
+    if(updates!=null)
+      data['updates'].map((e){
+        updates!.add(Timestamp(e.seconds,e.nanoseconds).toDate());
+      });
+    //updates=List<DateTime>.from(Timestamp(data['updates'].seconds,data['updates'].nanoseconds).toDate());
     createdAt=Timestamp(data['createdAt'].seconds,data['createdAt'].nanoseconds).toDate();
     appointmentTime=data['appointmentTime'];
+    appointmentId=data['appointmentId'];
   }
 
   Map<String,dynamic>toJson(){
@@ -39,6 +45,7 @@ class AppointmentModel{
     data['updates'] =updates;
     data['createdAt']=createdAt;
     data['appointmentTime']=appointmentTime;
+    data['appointmentId']=appointmentId;
     return data;
   }
 }

@@ -7,11 +7,28 @@ import 'package:flutter/material.dart';
 
 import '../models/appointment_model.dart';
 import '../models/consultant_model.dart';
+import '../services/appointment_service.dart';
 
 class AppointmentController extends ChangeNotifier{
   bool load = false;
 
-  DateTime? selectedDate;
+  DateTime? selectedDate; bool updateAppointmentCheck=false;
+
+
+  TextEditingController hourController = TextEditingController();
+  TextEditingController minuteController = TextEditingController();
+
+  bool timeZone = true;
+  int? index;
+  changeColor(int newIndex){
+    index=newIndex;
+    notifyListeners();
+    if(index==0){
+
+    }
+  }
+
+
 
   String? startTime1='8:00';
   String? startTime2='10:00';
@@ -43,55 +60,63 @@ class AppointmentController extends ChangeNotifier{
     selectedDate= sDate;
     notifyListeners();
   }
+  //
+  // selectedTimeSlot(AppointmentModel appointmentModel)async{
+  //
+  //   // selectedEndTime= endTime;
+  //   // selectedStartTime=startTime;
+  //   // appointmentTime='$selectedStartTime - $selectedEndTime';
+  //   // print(appointmentTime);
+  //   notifyListeners();
+  //   await updateAppointment(appointmentModel);
+  //
+  // }
 
-  selectedTimeSlot({String? startTime, String? endTime})async{
-
-    selectedEndTime= endTime;
-    selectedStartTime=startTime;
-    appointmentTime='$selectedStartTime - $selectedEndTime';
-    print(appointmentTime);
-    notifyListeners();
-    await saveAppointment();
-
-  }
-
-  saveAppointment()async{
+  updateAppointment(AppointmentModel appointmentModel)async{
   //  print(userController.patient!.lastName);
     print('k');
    // PatientModel? patientModel = PatientModel(firstName: userController.patient!.firstName,lastName: userController.patient!.lastName);
     //ConsultantModel? _consultantModel= ConsultantModel(firstName: consultantModel!.firstName,lastName: consultantModel!.firstName);
 
-    AppointmentModel appointmentModel = AppointmentModel(
+    AppointmentModel _appointmentModel = AppointmentModel(
       appointmentDate: '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}',
       appointmentEnd: DateTime(
         selectedDate!.year,
         selectedDate!.month,
         selectedDate!.day,
-        int.parse(selectedEndTime!.split(":")[0].toString()),
-        int.parse(selectedEndTime!.split(":")[1].toString()),
+        index==0?int.parse(hourController.text):(12+int.parse(hourController.text)),
+        int.parse(minuteController.text),
 
       ),
       appointmentStart: DateTime(
         selectedDate!.year,
         selectedDate!.month,
         selectedDate!.day,
-        int.parse(selectedStartTime!.split(":")[0].toString()),
-        int.parse(selectedStartTime!.split(":")[1].toString()),
+        index==0?int.parse(hourController.text):(12+int.parse(hourController.text)),
+        int.parse(minuteController.text),
 
       ),
+      appointmentId: appointmentModel.appointmentId,
+      updates: [
+       DateTime.now(),
+      ],
       createdAt: DateTime.now(),
-      appointmentTime: selectedStartTime,
-      //patient:userController.patient,
-      consultant:consultantModel);
+
+      appointmentTime: '${hourController.text}-${minuteController.text}',
+      patient:appointmentModel.patient,
+      consultant:appointmentModel.consultant);
     load = true;
     notifyListeners();
     print('lll');
-   // bool createAppointment =  await AppointmentService.createAppointment(appointmentModel);
-   // load = false;
-   // notifyListeners();
-   // if(createAppointment){
-   //   Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
-   // }
+   updateAppointmentCheck =  await AppointmentService.updateAppointment(_appointmentModel);
+   notifyListeners();
+   load = false;
+   notifyListeners();
+   hourController.clear();
+   minuteController.clear();
+   if(updateAppointmentCheck){
+    // Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
+   }
   }
 
 
