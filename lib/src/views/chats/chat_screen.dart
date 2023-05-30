@@ -1,16 +1,19 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:bubble/bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'dart:async';
 
 import '../../models/appointment_model.dart';
 import '../../services/chat_service.dart';
 import '../../themes/app_theme.dart';
+import '../appointments/appointment_reschedule.dart';
 
 final StreamController<ChatMessageModel> _chatMessagesStreamController =
 StreamController<ChatMessageModel>.broadcast();
@@ -85,16 +88,24 @@ class _ChatScreenState extends State<ChatScreen> {
         leading:  Row(
           children: [
             IconButton(icon:Icon(Icons.arrow_back_ios,color: AppTheme.black2,),onPressed: (){
-              Navigator.pop(context);
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              // Navigator.pop(context);
             },),
            ],
         ),
 
         title:  GestureDetector(
             onTap: (){
-              Navigator.pop(context);
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              // Navigator.pop(context);
+
+
+              showDialog(
+                  context: context, builder: (context) {
+                return
+                  ReportDialog(appointment: widget.appointment,);
+              });
+
             },
             child: Container(width: 117.h, height: 26.w,child:Center(child: Text('End Session',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 12.sp,fontWeight: FontWeight.w700))),decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: AppTheme.primary),))
         ,
@@ -109,8 +120,8 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             Gap(20),
-            CircleAvatar(backgroundImage: AssetImage('assets/consultant_image.png'),),
-
+            CircleAvatar(backgroundImage: AssetImage('assets/profile.png'),),
+            Gap(8),
           ],)
 
         ],
@@ -225,7 +236,7 @@ class MessagesStream extends StatelessWidget {
         if(snapshot.hasData){
           return Expanded(
             child: ListView.builder(
-              // reverse: true,
+             // reverse: true,
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -233,6 +244,8 @@ class MessagesStream extends StatelessWidget {
                   return UserChatBubble(
                     user: message[index]['sendBy'] == userController.consultant!.firstName?true:false,
                     chatMessage:message[index]['message'],
+                    time: '${DateFormat.jm().format(DateFormat("hh:mm:ss").parse("${message[index]['time'].toDate().hour}:${message[index]['time'].toDate().minute}:${message[index]['time'].toDate().second}"))}',
+
                   );
                 }
             ),
@@ -248,13 +261,15 @@ class MessagesStream extends StatelessWidget {
   }
 }
 
+
 class UserChatBubble extends StatelessWidget {
   final String chatMessage;
   final bool user;
+  final String? time;
   const UserChatBubble({
     Key? key,
     required this.chatMessage,
-    required this.user,
+    required this.user,this.time
   }) : super(key: key);
 
   @override
@@ -270,35 +285,34 @@ class UserChatBubble extends StatelessWidget {
           child: Column(
 
             children: [
-              Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 7 / 10,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: user?BorderRadius.only(
-                    bottomLeft: Radius.circular(15.0),
-                    bottomRight: Radius.circular(15.0),
-                    topLeft: Radius.circular(15.0),
-                  ):BorderRadius.only(
-                    bottomLeft: Radius.circular(15.0),
-                    bottomRight: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-                  color:user? AppTheme.primary:AppTheme.greyMessageColor,
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 20,
-                ),
-                child: Text(
-                  chatMessage,
-                  style: TextStyle(
-                    fontSize: 17,
-                    // fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+              Bubble(
+                margin: BubbleEdges.only(top: 10),
+                nip:user?BubbleNip.rightTop: BubbleNip.leftTop,
+
+                color:user? AppTheme.primary:AppTheme.greyMessageColor,
+               child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      chatMessage,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14.sp,
+                        // fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      '$time',
+                      style: TextStyle(
+                        fontSize: 8.sp,
+                        // fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+
             ],
           ),
         ),

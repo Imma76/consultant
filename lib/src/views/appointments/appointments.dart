@@ -48,12 +48,13 @@ class _AppointmentsState extends ConsumerState<Appointments> {
             if(snapshot.connectionState == ConnectionState.waiting){
 
               print('waiting');
-              return Indicator();
+              return Indicator2();
 
             }
             if(snapshot.hasError ){
               return Text('Unable to load appointments');
             }
+
             List<AppointmentModel> todayAppointment=[];
             List<AppointmentModel> yesterdayAppointment=[];
             List<AppointmentModel> totalAppointment = snapshot.data!.docs.map((e) {
@@ -180,11 +181,12 @@ class AppointmentCard extends ConsumerWidget {
             Text(
                 ( appointment!.appointmentEnd!.hour >12
                     &&appointment!.appointmentStart!.hour >
-                    12)?'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${(appointment!.appointmentStart!.hour-12)}:${appointment!.appointmentStart!.minute} - ${ appointment!.appointmentEnd!.hour-12}:${ appointment!.appointmentEnd!.minute} PM':'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${appointment!.appointmentStart!.hour}:${appointment!.appointmentStart!.minute} - ${appointment!.appointmentEnd!.hour}:${appointment!.appointmentEnd!.minute} AM',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+                    12)?'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${ appointment!.appointmentStartTime} -${ appointment!.appointmentEndTime}':'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${appointment!.appointmentStartTime}: - ${appointment!.appointmentEndTime
+                }',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
 
             Spacer(),
-            DateTime.now().hour>=appointment!.appointmentStart!.hour &&DateTime.now().isBefore(appointment!.appointmentEnd!)?
+            DateTime.now().isAfter(appointment!.appointmentStart!) &&DateTime.now().isBefore(appointment!.appointmentEnd!) && appointment!.sessionEnded==false?
             GestureDetector(
                 onTap: (){
 
@@ -198,7 +200,10 @@ class AppointmentCard extends ConsumerWidget {
                         children: [
                           GestureDetector(
                               onTap:(){
-                      Navigator.pushNamed(context, PatientMedicalHistory.id,arguments: appointment!.patient);
+                                Navigator.push(context, MaterialPageRoute(builder: (context){
+                                  return PatientMedicalHistory(appointmentModel:  appointment,);
+                                }));
+                      //Navigator.pushNamed(context, PatientMedicalHistory.id,arguments: appointment!.patient);
                     },
                               child: Text('View medical history >',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500))),
                           Gap(10),
@@ -226,8 +231,13 @@ class AppointmentCard extends ConsumerWidget {
                   });
 
                 },
-                child: Text('Begin session >',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)))
-            :Text(DateTime.now().isAfter(appointment!.appointmentStart!)==true?'(Session Ended)':'(Session not open)',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500))
+                child: Container(
+                  height: 24,
+                    width: 137,
+                    decoration: BoxDecoration(color: AppTheme.primary,borderRadius: BorderRadius.circular(5)),
+                    child: Center(child: Text('Begin session >',style:  GoogleFonts.poppins(color: AppTheme.white
+                        ,fontSize: 12.sp,fontWeight: FontWeight.w500)))))
+            :Text(DateTime.now().isAfter(appointment!.appointmentEnd!)==true?'(Session Ended)':'(Session not open)',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500))
           ],
         ),
       ),

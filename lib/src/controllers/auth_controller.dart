@@ -40,6 +40,12 @@ class AuthController extends ChangeNotifier{
   String? cvUrl;
   String? medicalLicenseUrl ;
 
+  clearController(){
+    emailController
+    .clear();
+    passwordController.clear();
+  }
+
   pickImage()async{
     imageFile= await _fileController.pickPhoto();
     notifyListeners();

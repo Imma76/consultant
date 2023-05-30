@@ -11,12 +11,15 @@ class AppointmentModel{
   ConsultantModel? consultant;
   PatientModel? patient;
   List<DateTime>? updates;
+  bool? sessionEnded;
   DateTime? createdAt;
   String? appointmentDate;
-  String? appointmentTime;
+  String? appointmentStartTime;
+  String? appointmentEndTime;
   String? appointmentId;
-  AppointmentModel({this.patient,this.consultant,this.createdAt,this.appointmentDate
-    ,this.appointmentEnd,this.appointmentStart,this.appointmentTime,this.updates,this.appointmentId});
+  String? report;
+  AppointmentModel({this.patient,this.sessionEnded,this.consultant,this.createdAt,this.appointmentDate
+    ,this.appointmentEnd,this.report,this.appointmentStart,this.appointmentStartTime,this.appointmentEndTime,this.updates,this.appointmentId});
 
   AppointmentModel.fromJson(Map data){
 
@@ -25,13 +28,17 @@ class AppointmentModel{
     appointmentDate=data['appointmentDate'];
     patient=PatientModel.fromJson(data['patient']);
     consultant=ConsultantModel.fromJson(data['consultant']);
+    report = data['report']??'';
     if(updates!=null)
       data['updates'].map((e){
         updates!.add(Timestamp(e.seconds,e.nanoseconds).toDate());
       });
     //updates=List<DateTime>.from(Timestamp(data['updates'].seconds,data['updates'].nanoseconds).toDate());
     createdAt=Timestamp(data['createdAt'].seconds,data['createdAt'].nanoseconds).toDate();
-    appointmentTime=data['appointmentTime'];
+    appointmentStartTime=data['appointmentStartTime'];
+    appointmentEndTime
+    = data['appointmentEndTime'];
+    sessionEnded = data['sessionEnded']??false;
     appointmentId=data['appointmentId'];
   }
 
@@ -44,8 +51,11 @@ class AppointmentModel{
     data['consultant'] =consultant?.toJson();
     data['updates'] =updates;
     data['createdAt']=createdAt;
-    data['appointmentTime']=appointmentTime;
+    data['appointmentStartTime'] = appointmentStartTime;
+    data['appointmentEndTime'] = appointmentEndTime;
     data['appointmentId']=appointmentId;
+    data['report'] = report;
+    data['sessionEnded'] = sessionEnded;
     return data;
   }
 }

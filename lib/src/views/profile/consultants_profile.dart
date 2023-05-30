@@ -25,7 +25,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
+        backgroundColor: AppTheme.lightGreen,
       //  appBar: PrimaryAppBar(context),
         body: Padding(
           padding: const EdgeInsets.only(left: 22.0, right: 21),
@@ -188,7 +188,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                       ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppTheme.lightGreen
+                          color: AppTheme.white
                       ),
                     ),
                     Gap(20),
@@ -207,7 +207,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                       ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppTheme.lightGreen
+                          color: AppTheme.white
                       ),
                     ),
                   ],

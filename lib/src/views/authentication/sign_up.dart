@@ -95,7 +95,8 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
                   ),
                 ),
                 Gap(44.h),
-                ElevatedButton(onPressed: ()async{
+                centralController
+                    .isAppLoading?Indicator2(color: AppTheme.white,):    ElevatedButton(onPressed: ()async{
                   pageController
                   .nextPage(duration: Duration(milliseconds: 100), curve: Curves.linear);
                   if(currentIndex ==3){
@@ -104,8 +105,7 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
                     await authController.signUp(centralController);
                   }
                   }
-                }, child:centralController
-                  .isAppLoading?Indicator(color: AppTheme.white,):Text(currentIndex !=3?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+                }, child:Text(currentIndex !=3?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
 Gap(40.h),
               ],
             ),
@@ -418,7 +418,7 @@ class Field3 extends ConsumerWidget {
           ),
           Gap(5.h),
           authController
-          .load?Indicator(color: AppTheme.primary
+          .load?Indicator2(color: AppTheme.primary
             ,):Padding(
             padding:  const EdgeInsets.all(3.0),
             child: GestureDetector(
@@ -497,7 +497,7 @@ class Field4 extends ConsumerWidget {
           ),
           Gap(5.h),
           authController
-              .load?Indicator(color: AppTheme.primary
+              .load?Indicator2(color: AppTheme.primary
             ,):Padding(
             padding: const EdgeInsets.all(3.0),
             child: GestureDetector(
@@ -552,7 +552,7 @@ class Field4 extends ConsumerWidget {
           ),
           Gap(5.h),
           authController
-              .load?Indicator(color: AppTheme.primary
+              .load?Indicator2(color: AppTheme.primary
             ,): Padding(
             padding: const EdgeInsets.all(3.0),
             child: Container(

@@ -5,6 +5,7 @@ import 'package:consultant/src/views/profile/consultants_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../all_providers/all_providers.dart';
@@ -55,10 +56,11 @@ class _BaseState extends ConsumerState<Base> {
         unselectedFontSize: 12,
         backgroundColor: AppTheme.lightGreen,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled,color: AppTheme.black,),label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded,color: AppTheme.black,),label: 'Appointments'),
-          BottomNavigationBarItem(icon: Image.asset("assets/calendar.png",height: 24,),label: 'Appointment \n Re-schedule '),
-          BottomNavigationBarItem(icon: Image.asset("assets/profile.png",height: 24,),label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_filled,color:currentIndex ==0?AppTheme.primary: AppTheme.black),label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded,color:currentIndex ==1?AppTheme.primary: AppTheme.black),label: 'Appointments'),
+          BottomNavigationBarItem(icon: Image.asset("assets/calendar.png",height: 24,color:currentIndex ==2?AppTheme.primary: AppTheme.black),label: 'Appointment \n Re-schedule '),
+          currentIndex==3? BottomNavigationBarItem(icon: SvgPicture.asset("assets/profile2.svg",height: 20,),label: 'Profile ', ):
+          BottomNavigationBarItem(icon: SvgPicture.asset("assets/profile.svg",height: 20,),label: 'Profile', ),
 
           // BottomNavigationBarItem(icon: Icon(Icons.calen))
         ],

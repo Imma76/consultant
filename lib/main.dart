@@ -93,7 +93,7 @@ class _LoadAppState extends ConsumerState<LoadApp> {
     final centralController = ref.watch(centralProvider);
     if(centralController.isAppLoading){
 
-      return Scaffold(body:Indicator());
+      return Scaffold(body:Indicator2());
     }
     if(centralController.isUserPresent){
 

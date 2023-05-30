@@ -45,7 +45,7 @@ class _AppointmentRescheduleState extends ConsumerState<AppointmentReschedule> {
             if(snapshot.connectionState == ConnectionState.waiting){
 
               print('waiting');
-              return Indicator();
+              return Indicator2();
 
             }
             if(snapshot.hasError ){
@@ -181,7 +181,7 @@ class AppointmentCard extends ConsumerWidget {
             Text(
                 ( appointment!.appointmentEnd!.hour >12
                     &&appointment!.appointmentStart!.hour >
-                        12)?'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${(appointment!.appointmentStart!.hour-12)}:${appointment!.appointmentStart!.minute} - ${ appointment!.appointmentEnd!.hour-12}:${ appointment!.appointmentEnd!.minute} PM':'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${appointment!.appointmentStart!.hour}:${appointment!.appointmentStart!.minute} - ${appointment!.appointmentEnd!.hour}:${appointment!.appointmentEnd!.minute} AM',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+                        12)?'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${(appointment!.appointmentStartTime)} - ${ appointment!.appointmentEndTime}}':'${appointment!.patient!.firstName} ${appointment!.patient!.lastName} ${appointment!.appointmentStartTime}- ${appointment!.appointmentEndTime}',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
 
             Spacer(),
@@ -298,7 +298,7 @@ class AppointmentCard extends ConsumerWidget {
 
                                     });
     }else{
-    print('efore');
+
     }
                                   //  Navigator.pushNamed(context, SelectTimeSlot.id);
                                     },
@@ -446,7 +446,7 @@ class RescheduleDialog extends ConsumerWidget {
                       height: 43.h,
                       width: 43.w,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(right:2.0,left:2.0,top: 2,bottom: 2),
                         child: TextField
                           ( keyboardType: TextInputType.number,
                           controller: appointmentController.hourController,decoration: InputDecoration(border: InputBorder.none),),
@@ -479,10 +479,10 @@ class RescheduleDialog extends ConsumerWidget {
                   Gap(8.w),
                   Container(
                       height: 43.h,
-                      width: 43.w,
+                      width: 45.w,
 
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(right:2.0,left:2.0,top: 2,bottom: 2),
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: appointmentController.minuteController,decoration: InputDecoration(border: InputBorder.none),
@@ -614,7 +614,7 @@ class RescheduleDialog extends ConsumerWidget {
                                             .w500)),
 
                                 Gap(24.h),
-                                ElevatedButton(
+                                appointmentController.load? Indicator2(color: AppTheme.white,):    ElevatedButton(
                                   onPressed: () {
                                     Navigator
                                         .pop(
@@ -654,7 +654,7 @@ class RescheduleDialog extends ConsumerWidget {
                     });
               }
               },
-                child:appointmentController.load? Indicator(color: AppTheme.white,): Text('Create slot',
+                child:Text('Create slot',
                   style: GoogleFonts.poppins(
                       color: AppTheme.white,
                       fontSize: 16.sp,
@@ -670,6 +670,231 @@ class RescheduleDialog extends ConsumerWidget {
           ),
           decoration: BoxDecoration(
             color: AppTheme.white,
+            borderRadius: BorderRadius.circular(
+                10),),
+
+        )
+    );
+  }
+}
+
+
+
+class ReportDialog extends ConsumerWidget {
+  final AppointmentModel? appointment;
+  const ReportDialog({
+    Key? key,required this.appointment
+
+  }) : super(key: key);
+
+
+
+  @override
+  Widget build(BuildContext context,ref) {
+    final appointmentController = ref.watch(appointmentProvider);
+    return Dialog(
+        child: Container(
+          height: 280.h,
+          width: 382.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment
+                .center,
+            children: [
+              Gap(16.h),
+              Text('Write your consultation report below'
+                  , style: GoogleFonts.poppins(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight
+                          .w400,
+                      color:
+                      //  AppTheme.red
+                      AppTheme.lightBlack
+                          .withOpacity(0.6)
+                  )),
+
+              Gap(12.h),
+          Container(
+            height: 158.h,
+            width: 314.w,
+          child: TextField(
+            controller:appointmentController.reportController,
+            cursorColor:AppTheme.primary,
+            decoration: InputDecoration(
+              contentPadding:EdgeInsets.all(2),
+              enabledBorder:InputBorder.none,
+              focusedBorder:InputBorder.none,
+            ),
+          ),
+          decoration: BoxDecoration
+              (border: Border.all(color: AppTheme.lightBlack.withOpacity(0.21))),
+          ),
+              Gap(11.h),
+              ElevatedButton(onPressed: ()async {
+                // Navigator.pop(context);
+                await appointmentController.updateAppointmentReport(appointment!);
+                if(appointmentController.updateAppointmentCheck) {
+                  Navigator.pop(context);
+                  showDialog(context: context,
+                      builder: (context) {
+                        return Dialog(
+                            child: Container(
+                              height: 238.h,
+                              width: 382.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .center,
+                                children: [
+                                  Gap(16.h),
+                                  Image.asset(
+                                      'assets/check.png',
+                                      height: 64
+                                          .h,
+                                      width: 64
+                                          .w),
+                                  Gap(8.h),
+                                  Text(
+                                      'Report submitted',
+                                      style: GoogleFonts
+                                          .poppins(
+                                          color: AppTheme
+                                              .lightBlack,
+                                          fontSize: 20
+                                              .sp,
+                                          fontWeight: FontWeight
+                                              .w500)),
+
+                                  Gap(24.h),
+                                  appointmentController.load? Indicator2(color: AppTheme.white,):  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator
+                                          .pop(
+                                          context);
+                                      Navigator
+                                          .pop(
+                                          context);
+                                      Navigator
+                                          .pop(
+                                          context);
+
+                                    },
+                                    child: Text(
+                                      'Done',
+                                      style: GoogleFonts
+                                          .poppins(
+                                          color: AppTheme
+                                              .white,
+                                          fontSize: 24
+                                              .sp,
+                                          fontWeight: FontWeight
+                                              .w700),),
+                                    style: ElevatedButton
+                                        .styleFrom(
+                                        primary: AppTheme
+                                            .primary,
+                                        minimumSize: Size(
+                                            154.w,
+                                            40
+                                                .h)),),
+
+
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppTheme
+                                    .white,
+                                borderRadius: BorderRadius
+                                    .circular(
+                                    10),),
+
+                            )
+                        );
+                      });
+                }
+              },
+                child: Text('Submit',
+                  style: GoogleFonts.poppins(
+                      color: AppTheme.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight
+                          .w700),),
+                style: ElevatedButton.styleFrom(
+                    primary: AppTheme.primary,
+                    minimumSize: Size(
+                        154.w, 40.h),fixedSize: Size(
+                    154.w, 40.h) ),),
+
+
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+
+            borderRadius: BorderRadius.circular(
+                10),),
+
+        )
+    );
+  }
+}
+
+
+class SessionEndDialog extends ConsumerWidget {
+
+  const SessionEndDialog({
+    Key? key,
+
+  }) : super(key: key);
+
+
+
+  @override
+  Widget build(BuildContext context,ref) {
+    final appointmentController = ref.watch(appointmentProvider);
+    return Dialog(
+        child: Container(
+          height: 120.h,
+          width: 382.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment
+                .center,
+            children: [
+              Gap(16.h),
+              Text('Session has been ended'
+                  , style: GoogleFonts.poppins(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight
+                          .w400,
+                      color:
+                      //  AppTheme.red
+                      AppTheme.lightBlack
+                          .withOpacity(0.6)
+                  )),
+
+              Gap(12.h),
+
+              ElevatedButton(onPressed: ()async {
+                Navigator.pop(context);
+                Navigator.pop(context);
+
+              },
+                child: Text('Okay',
+                  style: GoogleFonts.poppins(
+                      color: AppTheme.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight
+                          .w700),),
+                style: ElevatedButton.styleFrom(
+                    primary: AppTheme.primary,
+                    minimumSize: Size(
+                        154.w, 40.h),fixedSize: Size(
+                    154.w, 40.h) ),),
+
+
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+
             borderRadius: BorderRadius.circular(
                 10),),
 

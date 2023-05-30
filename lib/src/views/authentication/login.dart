@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
+import '../appointments/appointment_reschedule.dart';
 import '../home/base.dart';
 
 
@@ -96,16 +97,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
 
                 Gap(104.h),
-                ElevatedButton(onPressed: ()async{
+                centralController.isAppLoading?Indicator2(color: AppTheme.white,):   ElevatedButton(onPressed: ()async{
+
+
                   if(authController.checkInputForSignIn()){
+
                     await authController.signIn(centralController);
                   }
                 //  Navigator.pushNamed(context, Base.id);
 
-                }, child:centralController.isAppLoading?Indicator(color: AppTheme.white,):Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+                }, child:Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
             Gap(24.h),
                 GestureDetector(
               onTap: () {
+                authController.clearController();
                 Navigator.pushNamed(context, SignUpScreen.id );
               },
               child: Center(

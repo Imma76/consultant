@@ -19,12 +19,12 @@ class PatientModel{
     email=data['email'];
     firstName=data['firstName'];
     lastName=data['lastName'];
-    age=data['age'];
+    age=data['age']??'';
     weight=data['weight'];
     height=data['height'];
-    gender=data['gender'];
-    allergies=data['allergies'];
-    medicalConditions=data['medicalConditions'];
+    gender=data['gender']??'';
+    allergies=data['allergies']??'';
+    medicalConditions=data['medicalConditions']??'';
     userId=data['userId'];
   }
 
