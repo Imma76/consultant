@@ -9,7 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
+import '../../services/consultant_service.dart';
 import '../../themes/app_theme.dart';
 import '../../utils/widgets/loader.dart';
 import '../chats/chat_screen.dart';
@@ -209,6 +211,9 @@ class AppointmentCard extends ConsumerWidget {
                           Gap(10),
                           GestureDetector(
                               onTap: ()async{
+                                await ConsultantService.sendEmail('Your session with ${appointment!.patient!.firstName} ${appointment!.patient!.lastName} at ${ DateFormat('MMM d, H:mm y').format(appointment!.appointmentStart!)} has started');
+                                await ConsultantService.sendEmail('Your session with ${appointment!.consultant!.firstName} ${appointment!.consultant!.lastName} at ${ DateFormat('MMM d, H:mm y').format(appointment!.appointmentStart!)} has started',email: appointment!.patient!.email);
+
 
                                 String? chatRoomId = getChatRoomId(appointment!.patient!.firstName!, userController!.consultant!.firstName!);
                                 List<String?> users = [appointment!.patient!.firstName!, userController!.consultant!.firstName!];

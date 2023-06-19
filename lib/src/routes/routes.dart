@@ -3,7 +3,9 @@
 
 import 'package:consultant/src/views/appointments/appointments.dart';
 import 'package:consultant/src/views/authentication/confirmation_screen.dart';
+import 'package:consultant/src/views/authentication/count_down_page.dart';
 import 'package:consultant/src/views/authentication/great_job.dart';
+import 'package:consultant/src/views/authentication/verification_complete.dart';
 import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,9 @@ Map<String,WidgetBuilder>routes={
   ConfirmationScreen.id:(context)=>ConfirmationScreen(),
   Base.id:(context)=>Base(),
   Appointments.id:(context)=>Appointments(),
-  PatientMedicalHistory.id:(context)=>PatientMedicalHistory()
+  PatientMedicalHistory.id:(context)=>PatientMedicalHistory(),
+  VerificationComplete.id:(context)=>VerificationComplete(),
+  CountDownPage.id:(context)=> CountDownPage()
+
 
 };

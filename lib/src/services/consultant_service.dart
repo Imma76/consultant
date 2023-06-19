@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:consultant/src/controllers/user_controller.dart';
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -25,10 +26,12 @@ class ConsultantService{
   }
 
  static Future findConsultantById(String userId)async{
+   print('hereee');
    try{
      DocumentSnapshot
      user = await Collections.consultant.doc(userId).get();
      if(!user.exists){
+       print('user  $user');
        return null;
      }
 
@@ -36,9 +39,12 @@ class ConsultantService{
        );
 
    }on SocketException{
+
      return null;
    } catch(e){
+     print(e.toString());
      return null;
+
    }
  }
 
@@ -53,4 +59,20 @@ class ConsultantService{
      return null;
    }
  }
+
+ static Future sendEmail(String message,{ String? email })async{
+   try{
+     final response= await http.post(Uri.parse('https://email-service-fsmn.onrender.com/mail'),body: {
+       "name":"Consult",
+       "receiver":email??userController.consultant!.email!,
+       "message":"${message}",
+       "sender":"Consultant@gmail.com"
+     });
+     print(response.body);
+   }catch(e){
+     print(e.toString());
+   }
+ }
+
+
 }

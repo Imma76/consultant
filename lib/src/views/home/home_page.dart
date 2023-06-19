@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:consultant/src/services/consultant_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -97,8 +98,9 @@ class _HomepageState extends ConsumerState<Homepage> {
 
                 GestureDetector(
                   onTap: ()async{
-                    await FirebaseAuth.instance.signOut();
-                  },
+                    // await FirebaseAuth.instance.signOut();
+                    print('heree');
+                    },
                   child: Center(
                     child: Container(width: 295.w,height:259.h,
                       child: Center(child: Padding(
@@ -209,14 +211,16 @@ class ConsultantAvatar extends StatelessWidget {
 
 class TimeWidget extends StatelessWidget {
   String? time;
+  double? width;
+  double? height;
   TimeWidget({
-    Key? key,this.time
+    Key? key,this.time,this.height = 32,this.width=32,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(height:
-      32.h,width:32.w,child:Center(child: Text('$time',style: GoogleFonts.inter(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400))),decoration:
+      height,width:width,child:Center(child: Text('$time',style: GoogleFonts.inter(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400))),decoration:
       BoxDecoration(borderRadius: BorderRadius
       .circular(5),color: AppTheme.white),);
   }

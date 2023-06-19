@@ -1,3 +1,4 @@
+import 'package:consultant/src/views/authentication/count_down_page.dart';
 import 'package:consultant/src/views/home/base.dart';
 import 'package:consultant/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class ConfirmationScreen extends StatelessWidget {
                     ),
 
                     Gap(24.h),
+
+
                     Text('Congratulations on your sign up completion.Your account will undergo a 5 day verification process after which you will receive a mail for your oral interview.',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 20.sp,fontWeight: FontWeight.w500),),
 
 
@@ -45,8 +48,8 @@ class ConfirmationScreen extends StatelessWidget {
             Gap(181.h),
 
             ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, Base.id);
-            }, child:Text('Next',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+              Navigator.pushNamed(context, CountDownPage.id);
+            }, child:Text('Done',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
 
 
           ],),

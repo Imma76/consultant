@@ -3,11 +3,15 @@ import 'dart:io';
 
 import 'package:consultant/src/controllers/file_controller.dart';
 import 'package:consultant/src/controllers/user_controller.dart';
+import 'package:consultant/src/views/authentication/great_job.dart';
+import 'package:consultant/src/views/authentication/verification_complete.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../main.dart';
+import '../collections/collection.dart';
 import '../models/consultant_model.dart';
 import '../services/auth_service.dart';
 import '../services/consultant_service.dart';
@@ -139,18 +143,18 @@ class AuthController extends ChangeNotifier{
       showToast('fill in your history');
       return false;
     }
-    // if(cvUrl ==null){
-    //   showToast('upload your cv');
-    //   return false;
-    // }
-    // if(medicalLicenseUrl ==null){
-    //   showToast('upload your medical license');
-    //   return false;
-    // }
-    // if(imageUrl ==null){
-    // showToast('upload your image');
-    // return false;
-    // }
+    if(cvUrl ==null){
+      showToast('upload your cv');
+      return false;
+    }
+    if(medicalLicenseUrl ==null){
+      showToast('upload your medical license');
+      return false;
+    }
+    if(imageUrl ==null){
+    showToast('upload your photo');
+    return false;
+    }
     return true;
   }
 
@@ -207,13 +211,14 @@ class AuthController extends ChangeNotifier{
 
 
   Future signUp(centralState)async{
-    centralState;
+    centralState.startLoading();
     final user= await  authService.signUp(email: emailController.text.trim(),password: passwordController.text);
 
     if(user == null){
       centralState.stopLoading();
       return;
     }
+    DateTime now = DateTime.now();
 
     ConsultantModel consultant =ConsultantModel(
       email: emailController.text.trim(),
@@ -231,8 +236,10 @@ class AuthController extends ChangeNotifier{
       createdAt: DateTime.now(),
       age:ageController.text.trim(),
       gender: genderController.text.trim(),
-      userId:user.uid,
+      userId:user.uid,ratings: 0,
       areaOfSpecialty: specialtyController.text.trim(),
+      isVerified: false,
+      verificationDate: now.add(Duration(days: 5,)),
     );
    final createUser = await ConsultantService.createConsultant(consultant);
     if(createUser  == null){
@@ -241,9 +248,39 @@ class AuthController extends ChangeNotifier{
     }
     await userController.init();
     centralState.stopLoading();
+    await ConsultantService.sendEmail('Welcome to consult, Your account has been created successfully');
+
     notifyListeners();
     Navigator.pushNamedAndRemoveUntil(navigatorKey!
-        .currentContext!, Base.id, (route) => false);
+        .currentContext!, GreatJob.id, (route) => false);
+  }
+  updateConsultant(centralState)async{
+
+print('called');
+    if(DateTime.now().isAfter(userController.consultant!.verificationDate!)){
+      centralState.startLoading();
+      await Collections.consultant.doc(FirebaseAuth
+          .instance.currentUser
+      !.uid).update({"isVerified":true});
+
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      centralState.stopLoading();
+      Navigator.pushNamedAndRemoveUntil(navigatorKey!
+          .currentContext!, VerificationComplete.id, (route) => false);
+    }
+
+    bool isVerified = false;
+
+    checkVerification(centralState)async{
+      load = true;
+      notifyListeners();
+      if(centralState.user.emailVerified){
+        Navigator.pushNamedAndRemoveUntil(navigatorKey!
+            .currentContext!, Base.id, (route) => false);
+      }
+    }
+
+
   }
 
 }

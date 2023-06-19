@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../models/appointment_model.dart';
 import '../models/consultant_model.dart';
 import '../services/appointment_service.dart';
+import '../services/consultant_service.dart';
 
 class AppointmentController extends ChangeNotifier{
   bool load = false;
@@ -113,7 +114,7 @@ class AppointmentController extends ChangeNotifier{
     // notifyListeners();
     // print('lll');
     appointmentModel.appointmentStartTime = '${hourController.text}:${minuteController.text }${index  == 0? 'AM':'PM'}';
-
+    DateTime oldStartTime = appointmentModel.appointmentStart!;
     appointmentModel.appointmentDate= '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}';
     appointmentModel.appointmentStart =  DateTime(
       selectedDate!.year,
@@ -130,7 +131,9 @@ class AppointmentController extends ChangeNotifier{
    notifyListeners();
    hourController.clear();
    minuteController.clear();
-   if(updateAppointmentCheck){
+    await ConsultantService.sendEmail('You have updated your appointment from ${ DateFormat('MMM d, H:mm y').format(oldStartTime)} to ${ DateFormat('MMM d, H:mm y').format(appointmentModel.appointmentStart!)}');
+
+    if(updateAppointmentCheck){
     // Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
    }
   }

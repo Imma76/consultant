@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ConsultantModel{
 
   String? userName;
@@ -11,6 +13,7 @@ class ConsultantModel{
   String? lga;
   String? residentialAddress;
   DateTime? createdAt;
+  DateTime? verificationDate;
   String? userId;
   String? cv;
   String? areaOfSpecialty;
@@ -18,11 +21,12 @@ class ConsultantModel{
   String? photoUrl;
   String?history;
   double? ratings;
+  bool? isVerified;
   ConsultantModel({this.email,this.userName,this.lastName,this.userId,this.firstName,this.phoneNumber,this.areaOfSpecialty,this.cv
     ,this.createdAt,this.age,this.gender,this.history
   ,this.medicalLicense,this.photoUrl
   ,this.residentialAddress
-  ,this.stateOfOrigin,this.lga,this.ratings});
+  ,this.stateOfOrigin,this.lga,this.ratings,this.isVerified,this.verificationDate});
 
   ConsultantModel.fromJson(Map<dynamic,dynamic> data){
 
@@ -42,7 +46,10 @@ class ConsultantModel{
     phoneNumber=data['phoneNumber'];
     ratings=data['ratings'];
     stateOfOrigin=data['stateOfOrigin'];
+    isVerified =data['isVerified'];
     areaOfSpecialty=data['areaOfSpecialty'];
+    if(verificationDate != null)
+    verificationDate= Timestamp(data['verificationDate'].seconds,data['verificationDate'].nanoseconds).toDate();
   }
 
   toJson(){
@@ -64,7 +71,9 @@ class ConsultantModel{
     data['phoneNumber']=phoneNumber;
     data['ratings']=ratings;
     data['stateOfOrigin']=stateOfOrigin;
+    data['isVerified'] = isVerified;
     data['areaOfSpecialty']=areaOfSpecialty;
+    data['verificationDate'] = verificationDate;
     return data;
   }
 }

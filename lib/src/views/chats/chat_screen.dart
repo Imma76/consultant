@@ -12,6 +12,7 @@ import 'dart:async';
 
 import '../../models/appointment_model.dart';
 import '../../services/chat_service.dart';
+import '../../services/consultant_service.dart';
 import '../../themes/app_theme.dart';
 import '../appointments/appointment_reschedule.dart';
 
@@ -95,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
 
         title:  GestureDetector(
-            onTap: (){
+            onTap: ()async{
               // Navigator.pop(context);
               // Navigator.pop(context);
 
@@ -105,6 +106,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 return
                   ReportDialog(appointment: widget.appointment,);
               });
+              await ConsultantService.sendEmail('Your session with ${widget.appointment!.consultant!.firstName} ${widget.appointment!.consultant!.lastName} at ${ DateFormat('MMM d, H:mm y').format(widget.appointment!.appointmentStart!)} has been ended successfully ');
+
 
             },
             child: Container(width: 117.h, height: 26.w,child:Center(child: Text('End Session',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 12.sp,fontWeight: FontWeight.w700))),decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: AppTheme.primary),))

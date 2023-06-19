@@ -118,7 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'Dont have an account?',
+                          text: 'Don\'t have an account?',
                           style: GoogleFonts.poppins(
                               fontSize: 16.sp,
                               color: AppTheme.black,

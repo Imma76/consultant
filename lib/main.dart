@@ -1,13 +1,15 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:consultant/firebase_options.dart';
 import 'package:consultant/src/all_providers/all_providers.dart';
+import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:consultant/src/routes/routes.dart';
 import 'package:consultant/src/utils/widgets/loader.dart';
+import 'package:consultant/src/views/authentication/count_down_page.dart';
+import 'package:consultant/src/views/authentication/verification_complete.dart';
 import 'package:consultant/src/views/home/base.dart';
 import 'package:consultant/src/views/home/home_page.dart';
 import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:consultant/src/views/welcome.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
@@ -96,9 +98,19 @@ class _LoadAppState extends ConsumerState<LoadApp> {
       return Scaffold(body:Indicator2());
     }
     if(centralController.isUserPresent){
-
+      print('verified${userController.consultant!.isVerified}');
+      if(!userController.consultant!.isVerified! &&  DateTime.now().isBefore(userController.consultant!.verificationDate!)){
+        return CountDownPage();
+      }
+      if(!userController.consultant!.isVerified! &&  DateTime.now().isAfter(userController.consultant!.verificationDate!)){
+        return CountDownPage();
+      }
+      if(userController.consultant!.isVerified! &&  DateTime.now().isAfter(userController.consultant!.verificationDate!)&& centralController.user!.emailVerified == false ){
+        return VerificationComplete();
+      }
       return Base();
     }
+
 
     return WelcomeScreen();
 

@@ -57,8 +57,12 @@ dependencies:
   flutter_native_splash:
 
 
-  device_preview:
+
   table_calendar:
+  flutter_countdown_timer: ^4.1.0
+  slide_countdown: ^0.6.0
+  custom_timer: ^0.2.3
+  http: ^0.13.6
 
 
 
