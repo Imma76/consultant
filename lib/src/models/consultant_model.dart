@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ConsultantModel{
 
-  String? userName;
+   String? userName;
   String? email;
   String? firstName;
+
+  String? verificationStatus;
   String? lastName;
   String? age;
   String? phoneNumber;
@@ -26,13 +28,14 @@ class ConsultantModel{
     ,this.createdAt,this.age,this.gender,this.history
   ,this.medicalLicense,this.photoUrl
   ,this.residentialAddress
-  ,this.stateOfOrigin,this.lga,this.ratings,this.isVerified,this.verificationDate});
+  ,this.stateOfOrigin,this.lga,this.verificationStatus,this.ratings,this.isVerified,this.verificationDate });
 
   ConsultantModel.fromJson(Map<dynamic,dynamic> data){
 
     userName=data['userName'];
     email=data['email'];
     firstName=data['firstName'];
+    verificationStatus=data['verificationStatus']??'';
     lastName=data['lastName'];
     age=data['age'];
     cv=data['url'];
@@ -48,17 +51,24 @@ class ConsultantModel{
     stateOfOrigin=data['stateOfOrigin'];
     isVerified =data['isVerified'];
     areaOfSpecialty=data['areaOfSpecialty'];
-    if(verificationDate != null)
-    verificationDate= Timestamp(data['verificationDate'].seconds,data['verificationDate'].nanoseconds).toDate();
+    if(data['verificationDate'] != null){
+      verificationDate= Timestamp(data['verificationDate'].seconds,data['verificationDate'].nanoseconds).toDate();
+
+    }
+    // else{
+    //   verificationDate = DateTime(2023, 7,10);
+    // }
+
   }
 
   toJson(){
     Map<String,dynamic> data={};
-    data['userName']=userName;
+     data['userName']=userName;
     data['email']=email;
     data['firstName']=firstName;
     data['lastName']=lastName;
     data['age']=age;
+
    data['cvUrl']= cv;
    data['medicalLicense']=medicalLicense;
     data['residentialAddress']=residentialAddress;

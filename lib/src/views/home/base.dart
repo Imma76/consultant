@@ -1,3 +1,4 @@
+import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:consultant/src/themes/app_theme.dart';
 import 'package:consultant/src/views/appointments/appointment_reschedule.dart';
 import 'package:consultant/src/views/home/home_page.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:livechatt/livechatt.dart';
 
 import '../../all_providers/all_providers.dart';
 import '../appointments/appointments.dart';
@@ -41,6 +43,18 @@ class _BaseState extends ConsumerState<Base> {
 
     ];
     return Scaffold(
+
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.chat),backgroundColor: AppTheme.primary,onPressed:()async{
+        //
+        // var cmap = <String, String>{
+        //   'org': 'organizationTextController.text',
+        //   'position': 'positionTextController.text'
+        // };
+
+
+        await  Livechat.beginChat('15742248', '', '${userController.consultant?.firstName??'enter your name'}','${userController.consultant?.email??'enter your email'}', );
+
+      }),
       body:widgetList
       [currentIndex],
       bottomNavigationBar: BottomNavigationBar(

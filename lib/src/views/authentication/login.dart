@@ -6,11 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:livechatt/livechatt.dart';
 
 import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
 import '../appointments/appointment_reschedule.dart';
 import '../home/base.dart';
+import 'forgot_password.dart';
 
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -37,6 +39,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final centralController = ref.watch(centralProvider);
     return SafeArea(
       child: Scaffold(
+
+        floatingActionButton: FloatingActionButton(child: Icon(Icons.chat),backgroundColor: AppTheme.primary,onPressed:()async{
+          //
+          // var cmap = <String, String>{
+          //   'org': 'organizationTextController.text',
+          //   'position': 'positionTextController.text'
+          // };
+
+
+          await  Livechat.beginChat('15742248', '', 'enter your name','enter your email', );
+
+        }),
         body: Padding(
           padding:  EdgeInsets.only(left:24.w,right:24.w),
           child: SingleChildScrollView(
@@ -95,7 +109,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                 ),
-
+                GestureDetector(
+                  onTap:(){
+                    Navigator.pushNamed(context, ForgotPassword.id);
+                  },
+                  child: Text('Forgot password?',style: GoogleFonts.poppins(color: AppTheme.lightBlack
+                      ,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+                ),
                 Gap(104.h),
                 centralController.isAppLoading?Indicator2(color: AppTheme.white,):   ElevatedButton(onPressed: ()async{
 

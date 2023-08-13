@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consultant/src/services/consultant_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +26,33 @@ class Homepage extends ConsumerStatefulWidget {
 }
 
 class _HomepageState extends ConsumerState<Homepage> {
-  @override
+  List<String> healthTips = [
+    "Exercise regularly and be physically active",
+    "Take multivitamin supplements",
+    "Go easy on alcohol and stay sober",
+    "Eat a well balanced, low-fat diet with lots of fruits, vegetables and grains",
+    "Cut down on saturated fat and sugar",
+    "Eat less salt: no more than 6g a day for adults",
+    "Eat more fish, including a portion of oily fish",
+    "Base your meals on higher fibre starchy carbohydrates",
+    "Wash or sanitize your hands regularly",
+    "Do not eat immediately after a workout, wait for 20-25 minutes before eating after a workout",
+    "Have atleast 20-25 grams of raw onion daily",
+    "Laugh and smile",
+    "Monitor your caffeine intake",
+    "Do not eat heavy meals before bed",
+    "Spend more time in the sun for more vitamin D",
+    "Always use healthier oils when making meals",
+    "Eat Whole Foods instead of processed foods",
+    "Reject food or drinks made of artificial colors",
+    "Try to eat a piece of fruit everyday"
+  ];
+  String getRandomTip() {
+    Random random = Random();
+    int index = random.nextInt(healthTips.length);
+    return healthTips[index];
+  }
+ // @override
   // void initState() {
   //   // TODO: implement initState
   //   super.initState();
@@ -122,7 +150,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                   child: Container(width: 295.w,height:259.h,
                     child: Center(child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Tips for Effective Online Health',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
+                      child: Text(getRandomTip(),textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
                     )),
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
                       begin: Alignment.topLeft,

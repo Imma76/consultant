@@ -101,7 +101,7 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
                       }),
                 ),
                 Gap(44.h),
-                centralController.isAppLoading
+                authController.loadSignUp
                     ? Indicator2(
                         color: AppTheme.white,
                       )
@@ -276,6 +276,7 @@ class Field2 extends ConsumerWidget {
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
               controller: authController.phoneNoController,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppTheme.white2)),
@@ -299,7 +300,7 @@ class Field2 extends ConsumerWidget {
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
               controller: authController.stateOfOriginController,
-              keyboardType: TextInputType.number,
+
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppTheme.white2)),
@@ -377,18 +378,18 @@ class Field3 extends ConsumerWidget {
                 fontWeight: FontWeight.w400),
           ),
           Gap(8.h),
-          SizedBox(
-            height: 60.h,
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: TextFormField(
-                controller: authController.genderController,
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppTheme.white2)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppTheme.white2))),
-              ),
+          Container(
+            width: double.infinity,
+            child: DropdownButton<String>(
+                isExpanded: true,
+                items: <String>['MALE', 'FEMALE',''].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                value: authController.genderController.text,
+                onChanged:authController.changeGender
             ),
           ),
           Gap(24.h),
@@ -406,7 +407,7 @@ class Field3 extends ConsumerWidget {
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
                 controller: authController.residentialAddressController,
-                keyboardType: TextInputType.number,
+
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: AppTheme.white2)),
@@ -430,7 +431,7 @@ class Field3 extends ConsumerWidget {
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
                 controller: authController.specialtyController,
-                keyboardType: TextInputType.number,
+
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: AppTheme.white2)),
@@ -663,7 +664,7 @@ class Field4 extends ConsumerWidget {
                 )),
           ),
           Gap(5.h),
-          authController.load
+          authController.loadPhoto
               ? Indicator2(
                   color: AppTheme.primary,
                 )
@@ -699,11 +700,21 @@ class Field4 extends ConsumerWidget {
           ),
           Gap(8.h),
           SizedBox(
-            height: 92.h,
+            height: 100.h,
             child: Padding(
               padding: const EdgeInsets.all(3.0),
               child: TextFormField(
+                maxLines: 3,
                 controller: authController.historyController,
+                // onChanged: (text) {
+                //   final lines = text.split('\n');
+                //   final lastLine = lines.last;
+                //   final cursorPosition = authController.historyController.selection.baseOffset;
+                //
+                //   if (cursorPosition >= lastLine.length) {
+                //     authController.historyController.text += '\n';
+                //   }
+                // },
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: AppTheme.white2)),

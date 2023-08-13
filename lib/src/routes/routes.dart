@@ -9,6 +9,7 @@ import 'package:consultant/src/views/authentication/verification_complete.dart';
 import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:flutter/material.dart';
 
+import '../views/authentication/forgot_password.dart';
 import '../views/authentication/login.dart';
 import '../views/authentication/sign_up.dart';
 import '../views/home/base.dart';
@@ -26,7 +27,8 @@ Map<String,WidgetBuilder>routes={
   Appointments.id:(context)=>Appointments(),
   PatientMedicalHistory.id:(context)=>PatientMedicalHistory(),
   VerificationComplete.id:(context)=>VerificationComplete(),
-  CountDownPage.id:(context)=> CountDownPage()
+  CountDownPage.id:(context)=> CountDownPage(),
+  ForgotPassword.id:(context)=>ForgotPassword()
 
 
 };

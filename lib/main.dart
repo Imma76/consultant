@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:consultant/firebase_options.dart';
 import 'package:consultant/src/all_providers/all_providers.dart';
+import 'package:consultant/src/controllers/central_state.dart';
 import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:consultant/src/routes/routes.dart';
 import 'package:consultant/src/utils/widgets/loader.dart';
@@ -10,6 +11,7 @@ import 'package:consultant/src/views/home/base.dart';
 import 'package:consultant/src/views/home/home_page.dart';
 import 'package:consultant/src/views/patient/patient_history.dart';
 import 'package:consultant/src/views/welcome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
@@ -87,6 +89,7 @@ class _LoadAppState extends ConsumerState<LoadApp> {
     // TODO: implement initState
     super.initState();
     ref.read(centralProvider).initializeApp();
+    //ref.read(userProvider).getAllConsultant();
 
 
   }
@@ -97,20 +100,26 @@ class _LoadAppState extends ConsumerState<LoadApp> {
 
       return Scaffold(body:Indicator2());
     }
-    if(centralController.isUserPresent){
-      print('verified${userController.consultant!.isVerified}');
+    if(centralController.isUserPresent && userController.consultant!= null){
+
       if(!userController.consultant!.isVerified! &&  DateTime.now().isBefore(userController.consultant!.verificationDate!)){
         return CountDownPage();
       }
       if(!userController.consultant!.isVerified! &&  DateTime.now().isAfter(userController.consultant!.verificationDate!)){
         return CountDownPage();
       }
-      if(userController.consultant!.isVerified! &&  DateTime.now().isAfter(userController.consultant!.verificationDate!)&& centralController.user!.emailVerified == false ){
+
+
+      if(userController.consultant!.isVerified== true && FirebaseAuth.instance.currentUser!.emailVerified == false){
+        ref.read(authProvider).checkIfConsultantIsVerified(centralState,userController.consultant!.isVerified!);
         return VerificationComplete();
+      }
+      if(userController.consultant!.verificationStatus == 'banned' || userController.consultant!.verificationStatus=='restricted'){
+
+        return WelcomeScreen();
       }
       return Base();
     }
-
 
     return WelcomeScreen();
 

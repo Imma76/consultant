@@ -3,14 +3,75 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controllers/user_controller.dart';
 import '../themes/app_theme.dart';
 import 'authentication/login.dart';
 
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static const id ='welcome_screen';
   const WelcomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+
+
+      if(userController.consultant!= null){
+        if(userController.consultant!.verificationStatus == 'banned' || userController.consultant!.verificationStatus=='restricted') {
+
+
+
+          showDialog(context: context, builder: (context){
+            return Dialog(
+              backgroundColor:
+              AppTheme.white
+              ,
+              child: Container(
+                decoration: BoxDecoration(   color:
+                AppTheme.white,borderRadius: BorderRadius.circular(10.r)),
+                height:
+                165.h,
+                width: 390.w,
+
+                child: Column(
+                  children: [
+                    Gap(22.h),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Your Account has been ${userController.consultant!.verificationStatus} by the admin ',textAlign: TextAlign.center,style: GoogleFonts.dmSans(
+                          color: AppTheme.lightBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),),
+                    ),
+
+                    Gap(24.h),
+                    ElevatedButton(onPressed: () async{
+                      print('rating');
+                      Navigator.pop(context);
+                    },
+                      child: Text('Okay', style: GoogleFonts.poppins(
+                          color: AppTheme.white,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w700),),
+                      style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                          minimumSize: Size(108.w, 52.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),
+                  ],
+                ),
+              ),
+
+            );
+          });
+        }}
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

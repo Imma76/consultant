@@ -11,7 +11,7 @@ import '../utils/error_codes.dart';
 class ConsultantService{
  static Future findPatient(String userName)async{
     try{
-      QuerySnapshot user = await Collections.patientCollection.where(userName,isEqualTo:"userName").get();
+      QuerySnapshot user = await Collections.patientCollection.where("userName",isEqualTo:userName).get();
       if(user.docs.isNotEmpty){
         final userData = user as Map<dynamic,dynamic>;
         return ConsultantModel.fromJson(userData);
@@ -24,6 +24,38 @@ class ConsultantService{
       return null;
     }
   }
+ static  Stream<List<ConsultantModel>>? getConsultant( {String? orderBy = 'createdAt',
+   bool? descending = true,
+   var startAt,}){
+   try{
+     Query query =  Collections.consultant.where("email",isEqualTo:userController.consultant!.email);
+
+     return query.snapshots()
+         .map((snapShot) => snapShot.docs.map<ConsultantModel>((consultant) {
+       print(consultant);
+       Map _temp = consultant.data() as Map<dynamic, dynamic>;
+       _temp['docId'] = consultant.id;
+       // //(_temp);
+       return ConsultantModel.fromJson(_temp as Map<String, dynamic>);
+     }).toList());
+   }catch(e){
+     return null;
+   }
+ }
+ static Future findConsultantByEmail(String email)async{
+   try{
+     QuerySnapshot user = await Collections.consultant.where("email",isEqualTo:email).get();
+     if(user.docs.isNotEmpty){
+       return '';
+     }
+     return null;
+
+   }on SocketException{
+     return null;
+   } catch(e){
+     return null;
+   }
+ }
 
  static Future findConsultantById(String userId)async{
    print('hereee');

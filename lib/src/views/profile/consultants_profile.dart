@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:consultant/src/all_providers/all_providers.dart';
 import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../controllers/central_state.dart';
 import '../../themes/app_theme.dart';
 import '../../utils/widgets/app_bar.dart';
 
@@ -21,10 +24,23 @@ class ConsultantProfile extends ConsumerStatefulWidget {
 }
 
 class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
+
   @override
   Widget build(BuildContext context) {
+    final consultantController = ref.read(userProvider);
+    double ratingCount = (userController.consultant!.ratings!/10);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(icon:Icon(Icons.logout,color: AppTheme.greyMessageColor,),onPressed: ()async{
+              ref.watch(authProvider).clearController();
+              centralState!.logOut();
+            },)
+          ],
+        ),
         backgroundColor: AppTheme.lightGreen,
       //  appBar: PrimaryAppBar(context),
         body: Padding(
@@ -202,7 +218,32 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                               .poppins(
                               fontSize: 12.sp,
                               color: AppTheme.black2,
-                              fontWeight: FontWeight.w500))
+                              fontWeight: FontWeight.w500)),
+                          Gap(20),
+                          if((ratingCount*100)>=60)
+                            CircularPercentIndicator(
+                              radius: 30.0,
+                              lineWidth: 5.0,
+                              percent: ratingCount,
+                              center: new Text('${ratingCount*100}%'),
+                              progressColor: Colors.green,
+                            ),
+                          if((ratingCount*100)<=50 &&(ratingCount*100)>=30 )
+                            CircularPercentIndicator(
+                              radius: 30.0,
+                              lineWidth: 5.0,
+                              percent: ratingCount,
+                              center: new Text('${ratingCount*100}%'),
+                              progressColor: Colors.yellow,
+                            ),
+                          if((ratingCount*100)<30 )
+                            CircularPercentIndicator(
+                              radius: 30.0,
+                              lineWidth: 5.0,
+                              percent: ratingCount,
+                              center: new Text('${ratingCount*100}%'),
+                              progressColor: Colors.red,
+                            )
                         ],),
                       ),
                       decoration: BoxDecoration(

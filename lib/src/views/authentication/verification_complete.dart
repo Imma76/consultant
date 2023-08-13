@@ -7,6 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../all_providers/all_providers.dart';
+import '../../controllers/central_state.dart';
+import '../../controllers/user_controller.dart';
 import '../../themes/app_theme.dart';
 import '../home/base.dart';
 
@@ -26,6 +29,7 @@ class _VerificationCompleteState extends ConsumerState<VerificationComplete> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    ref.read(authProvider).checkIfConsultantIsVerified(centralState,userController.consultant!.isVerified!);
 
 
     Timer timer = Timer.periodic(Duration(seconds: 3), (timer) async{

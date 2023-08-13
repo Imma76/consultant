@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:consultant/src/all_providers/all_providers.dart';
 import 'package:consultant/src/controllers/central_state.dart';
 import 'package:consultant/src/controllers/user_controller.dart';
 import 'package:consultant/src/themes/app_theme.dart';
 import 'package:consultant/src/views/home/home_page.dart';
 import 'package:custom_timer/custom_timer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slide_countdown/slide_countdown.dart';
+
+import '../home/base.dart';
 
 class CountDownPage extends ConsumerStatefulWidget {
   static const id = 'confirm_page';
@@ -40,14 +45,36 @@ class _CountDownPageState extends ConsumerState<CountDownPage>with SingleTickerP
     // TODO: implement initState
     super.initState();
   //  userController.init();
-    ref.read(authProvider).updateConsultant(centralState);
+
+     ref.read(userProvider).getAllConsultant();
+     if(ref.read(userProvider).consultantListSearchable.isNotEmpty){
+       ref.read(authProvider).checkIfConsultantIsVerified(centralState,ref.read(userProvider).consultantListSearchable[0].isVerified!);
+
+     }
+
     _controller.start();
     _controller.addListener(() {
-      print('listening');
-      if(DateTime.now().isAfter(userController.consultant!.verificationDate!)){
+
+     // if( ref.watch(userProvider).consultantListSearchable[0].isVerified == true &&ref.watch(authProvider).sent ==0 ){
         _controller.removeListener(() { });
-        ref.read(authProvider).updateConsultant(centralState);
-      }
+       // ref.read(authProvider).updateConsultant(centralState);
+
+      //  ref.read(authProvider).checkIfConsultantIsVerified(centralState,ref.watch(userProvider).consultantListSearchable[0].isVerified!);
+   //   }
+    });
+
+    Timer timer = Timer.periodic(Duration(seconds: 3), (timer) async{
+      print('waiting verification');
+      if(FirebaseAuth.instance.currentUser != null){
+        if(ref.read(userProvider).consultantListSearchable.isNotEmpty){
+          if( ref.watch(userProvider).consultantListSearchable[0].isVerified == true &&ref.watch(authProvider).sent ==0 ) {
+            ref.read(authProvider).checkIfConsultantIsVerified(centralState,ref.watch(userProvider).consultantListSearchable[0].isVerified!);
+
+          }
+        }
+
+        }
+
     });
   }
 

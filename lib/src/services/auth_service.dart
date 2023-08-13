@@ -10,6 +10,22 @@ import '../utils/error_codes.dart';
 import '../utils/widgets/reusable_widget.dart';
 
 class AuthService{
+
+  Future resetPassword({String? email,})async{
+    try{
+
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email!);
+      return true;
+    }on SocketException{
+      return false;
+    }on FirebaseAuthException catch(e){
+      showToast(ErrorCodes.getFirebaseErrorMessage(e));
+      return false;
+    } catch(e){
+      print(e.toString());
+      return false;
+    }
+  }
   Future signIn({String? email,String? password})async{
     try{
 

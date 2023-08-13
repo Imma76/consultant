@@ -63,6 +63,8 @@ dependencies:
   slide_countdown: ^0.6.0
   custom_timer: ^0.2.3
   http: ^0.13.6
+  percent_indicator:
+  livechatt: ^1.4.0
 
 
 

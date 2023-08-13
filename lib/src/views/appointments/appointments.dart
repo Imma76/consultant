@@ -66,7 +66,7 @@ class _AppointmentsState extends ConsumerState<Appointments> {
             for(var appointment in totalAppointment){
               if(appointment.appointmentStart!.day == DateTime.now().day && appointment.consultant!.userId==userController.consultant!.userId ){
                 todayAppointment.add(appointment);
-              }else if(DateTime.now().isAfter(appointment!.appointmentStart!)==true &&(DateTime.now().day-1)== appointment!.appointmentStart!.day && appointment.consultant!.userId==userController.consultant!.userId ){
+              }else if(DateTime.now().isAfter(appointment!.appointmentStart!)==true  && appointment.consultant!.userId==userController.consultant!.userId ){
                 print((DateTime.now().day-1)== appointment!.appointmentStart!.day);
                 yesterdayAppointment.add(appointment);
               }
@@ -141,7 +141,7 @@ class _AppointmentsState extends ConsumerState<Appointments> {
                     }
                   ),
                   Gap(20),
-                  Text('Yesterday',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700) ),
+                  Text('Previous',style:  GoogleFonts.poppins(color: AppTheme.black2,fontSize: 24.sp,fontWeight: FontWeight.w700) ),
                   Gap(10.h),
                   ListView.builder(
                       shrinkWrap: true,
